@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Lint & Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Check Markdown formatting
+        run: npm run lint
+
+      - name: Check Prettier formatting
+        run: npm run format
+
+      - name: Python syntax check
+        run: python -m py_compile .github/skills/doctor/scripts/*.py
+
+  validate-skill:
+    name: Validate Skill Structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check SKILL.md exists
+        run: test -f .github/skills/doctor/SKILL.md && echo "SKILL.md exists" || exit 1
+
+      - name: Check SKILL.md frontmatter
+        run: |
+          head -1 .github/skills/doctor/SKILL.md | grep -q '^---$' && echo "Valid frontmatter start" || exit 1

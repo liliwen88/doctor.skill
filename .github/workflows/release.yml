@@ -1,0 +1,30 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate Release Notes
+        run: |
+          echo "# Release ${{ github.ref_name }}" > RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          git log --oneline --no-decorate $(git tag --sort=-version:refname | head -1)..HEAD 2>/dev/null || git log --oneline --no-decorate -20 >> RELEASE_NOTES.md
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: RELEASE_NOTES.md
+          files: |
+            LICENSE
+            .github/skills/doctor/SKILL.md
+          make_latest: true

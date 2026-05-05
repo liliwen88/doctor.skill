@@ -1,0 +1,32 @@
+{
+  "name": "doctor-skill",
+  "version": "1.0.0",
+  "description": "医疗健康 AI 助手 — VS Code / Claude Code Agent Skill。症状分析、药物查询、文献检索、术语解释、健康科普、报告解读。",
+  "keywords": [
+    "medical",
+    "healthcare",
+    "doctor",
+    "copilot-skill",
+    "agent-skill",
+    "vscode",
+    "ai-assistant",
+    "medical-ai"
+  ],
+  "homepage": "https://github.com/YOUR_USERNAME/doctor.skill#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YOUR_USERNAME/doctor.skill.git"
+  },
+  "license": "MIT",
+  "author": "",
+  "scripts": {
+    "lint": "markdownlint '**/*.md' --ignore node_modules --ignore docs/_site",
+    "lint:fix": "markdownlint '**/*.md' --fix --ignore node_modules --ignore docs/_site",
+    "format": "prettier --check '**/*.{md,py,json,yaml,yml}'",
+    "format:fix": "prettier --write '**/*.{md,py,json,yaml,yml}'"
+  },
+  "devDependencies": {
+    "markdownlint-cli": "^0.42.0",
+    "prettier": "^3.4.0"
+  }
+}
