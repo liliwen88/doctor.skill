@@ -21,7 +21,7 @@ jobs:
           git log --oneline --no-decorate $(git tag --sort=-version:refname | head -1)..HEAD 2>/dev/null || git log --oneline --no-decorate -20 >> RELEASE_NOTES.md
 
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           body_path: RELEASE_NOTES.md
           files: |
