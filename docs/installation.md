@@ -7,13 +7,13 @@
 ### 方式一：使用 skills.sh CLI（推荐）
 
 ```bash
-npx skills add 你的GitHub用户名/doctor.skill
+npx skills add liliwen88/doctor.skill
 ```
 
 ### 方式二：通过 Claude Code
 
 ```bash
-/plugin add https://github.com/你的GitHub用户名/doctor.skill
+/plugin add https://github.com/liliwen88/doctor.skill
 ```
 
 ### 方式三：从网站安装
@@ -67,7 +67,7 @@ cp -r .github/skills/doctor ~/.copilot/skills/doctor/
 ### Git Submodule（推荐团队协作）
 
 ```bash
-git submodule add https://github.com/YOUR_USERNAME/doctor.skill.git .github/skills/doctor
+git submodule add https://github.com/liliwen88/doctor.skill.git .github/skills/doctor
 ```
 
 ---

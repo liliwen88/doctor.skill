@@ -49,10 +49,10 @@
 
 ```bash
 # Using skills.sh CLI (recommended)
-npx skills add YOUR_GITHUB_USERNAME/doctor.skill
+npx skills add liliwen88/doctor.skill
 
 # Or via Claude Code
-/plugin add https://github.com/YOUR_GITHUB_USERNAME/doctor.skill
+/plugin add https://github.com/liliwen88/doctor.skill
 ```
 
 ### Installation from Tencent SkillHub 🧩
@@ -184,8 +184,8 @@ doctor.skill/
 
 We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
-- 🐛 Report bugs via [Issues](https://github.com/YOUR_USERNAME/doctor.skill/issues)
-- 💡 Suggest features via [Issues](https://github.com/YOUR_USERNAME/doctor.skill/issues)
+- 🐛 Report bugs via [Issues](https://github.com/liliwen88/doctor.skill/issues)
+- 💡 Suggest features via [Issues](https://github.com/liliwen88/doctor.skill/issues)
 - ⚕️ Update medical knowledge references
 - 🌐 Help with translations
 - 💻 Improve API scripts

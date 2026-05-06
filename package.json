@@ -14,10 +14,10 @@
     "drug-interaction",
     "pubmed"
   ],
-  "homepage": "https://github.com/YOUR_USERNAME/doctor.skill#readme",
+  "homepage": "https://github.com/liliwen88/doctor.skill#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YOUR_USERNAME/doctor.skill.git"
+    "url": "git+https://github.com/liliwen88/doctor.skill.git"
   },
   "license": "MIT",
   "author": "",

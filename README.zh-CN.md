@@ -49,10 +49,10 @@
 
 ```bash
 # 使用 skills.sh CLI（推荐）
-npx skills add 你的GitHub用户名/doctor.skill
+npx skills add liliwen88/doctor.skill
 
 # 或通过 Claude Code
-/plugin add https://github.com/你的GitHub用户名/doctor.skill
+/plugin add https://github.com/liliwen88/doctor.skill
 ```
 
 ### 从腾讯 SkillHub 安装 🧩
@@ -184,8 +184,8 @@ doctor.skill/
 
 欢迎任何形式的贡献！详见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
-- 🐛 通过 [Issues](https://github.com/YOUR_USERNAME/doctor.skill/issues) 报告 Bug
-- 💡 通过 [Issues](https://github.com/YOUR_USERNAME/doctor.skill/issues) 提出功能建议
+- 🐛 通过 [Issues](https://github.com/liliwen88/doctor.skill/issues) 报告 Bug
+- 💡 通过 [Issues](https://github.com/liliwen88/doctor.skill/issues) 提出功能建议
 - ⚕️ 更新医学知识参考
 - 🌐 帮助翻译文档
 - 💻 改进 API 脚本

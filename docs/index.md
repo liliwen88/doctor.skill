@@ -22,7 +22,7 @@
 
 ## 🔗 相关链接
 
-- [GitHub 仓库](https://github.com/YOUR_USERNAME/doctor.skill)
+- [GitHub 仓库](https://github.com/liliwen88/doctor.skill)
 - [SkillsMP](https://skillsmp.com)
 - [腾讯 SkillHub](https://skillhub.cn)
 - [Agent Skills 标准](https://agentskills.io/)
