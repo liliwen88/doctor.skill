@@ -1,5 +1,7 @@
 # API 集成文档
 
+> 本技能设计为跨平台 Agent Skill，已上架 [SkillsMP](https://skillsmp.com) 和 [腾讯 SkillHub](https://skillhub.cn)。
+
 本技能集成了以下公开免费的医学 API，以提供权威、实时的医学信息。
 
 ## 🔎 PubMed E-utilities API

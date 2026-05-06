@@ -1,6 +1,8 @@
 # 高级功能 / Premium Features
 
 > 🚀 即将推出 — 开源核心功能的增强版本
+>
+> 本技能已上架 [SkillsMP](https://skillsmp.com) 和 [腾讯 SkillHub](https://skillhub.cn)。
 
 ## 功能预览
 

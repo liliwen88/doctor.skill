@@ -1,16 +1,18 @@
 {
   "name": "doctor-skill",
   "version": "1.0.0",
-  "description": "医疗健康 AI 助手 — VS Code / Claude Code Agent Skill。症状分析、药物查询、文献检索、术语解释、健康科普、报告解读。",
+  "description": "医疗健康 AI 助手 — 支持 SkillsMP 和腾讯 SkillHub 平台的 Agent Skill。症状分析、药物查询、文献检索、术语解释、健康科普、报告解读。",
   "keywords": [
     "medical",
     "healthcare",
     "doctor",
-    "copilot-skill",
+    "skillsmp",
+    "skillhub",
     "agent-skill",
-    "vscode",
-    "ai-assistant",
-    "medical-ai"
+    "medical-ai",
+    "symptom-analysis",
+    "drug-interaction",
+    "pubmed"
   ],
   "homepage": "https://github.com/YOUR_USERNAME/doctor.skill#readme",
   "repository": {

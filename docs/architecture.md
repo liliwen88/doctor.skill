@@ -1,5 +1,8 @@
 # 架构说明
 
+> 本技能设计为跨平台 Agent Skill，已上架 [SkillsMP](https://skillsmp.com) 和 [腾讯 SkillHub](https://skillhub.cn)。
+> 遵循 [Agent Skills](https://agentskills.io/) 开放标准，兼容所有支持该标准的 AI 工具。
+
 ## 整体架构
 
 ```
@@ -59,4 +62,4 @@
 1. **渐进式加载**：SKILL.md < 500 行，详细信息放在参考文献中
 2. **API 优先，AI 回退**：优先使用权威 API 数据，API 不可用时回退到 AI 模型知识
 3. **免责优先**：所有输出必须包含免责声明
-4. **多平台兼容**：遵循 Agent Skills 开放标准，兼容 VS Code 和 Claude Code
+4. **多平台兼容**：遵循 Agent Skills 开放标准，已上架 SkillsMP 和腾讯 SkillHub，兼容 Claude Code、OpenAI Codex CLI、Cursor、VS Code 等所有支持该标准的工具

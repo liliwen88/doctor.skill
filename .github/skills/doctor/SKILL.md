@@ -4,6 +4,9 @@ description: '医疗健康 AI 助手。用于：症状分析、药物信息查�
 argument-hint: '描述你的医疗健康需求，例如症状、药物名称、医学术语等'
 user-invocable: true
 context: fork
+platform:
+  - SkillsMP
+  - Tencent SkillHub
 ---
 
 # 👨‍⚕️ 医疗健康 AI 助手 (Doctor Skill)
@@ -27,9 +30,42 @@ context: fork
 
 ## How to Invoke / 如何调用
 
-在 VS Code 或 Claude Code 的 Chat 界面中输入 `/doctor` 或在提示中提及医疗相关关键词即可触发。
+### 📦 从 SkillsMP 安装
+本技能已在 [SkillsMP](https://skillsmp.com) — 全球最大的 Agent Skills 市场 上架。您可以通过以下方式安装：
 
-In VS Code or Claude Code Chat, type `/doctor` or mention medical keywords to invoke.
+**方式一（推荐）：使用 skills.sh 命令行工具**
+```bash
+npx skills add 您的GitHub用户名/doctor.skill
+```
+
+**方式二：在 Claude Code 中直接安装**
+```
+/plugin add https://github.com/您的GitHub用户名/doctor.skill
+```
+
+**方式三：从 SkillsMP 网站安装**
+访问 [skillsmp.com](https://skillsmp.com) 搜索 "doctor" 找到本技能，一键安装到您的 Agent。
+
+### 📦 从腾讯 SkillHub 安装
+本技能已在 [腾讯 SkillHub](https://skillhub.cn) — 专为中国用户优化的 AI Skills 社区 上架。
+
+**方式一：使用 SkillHub CLI 安装**
+```bash
+# 安装 SkillHub CLI（如未安装）
+curl -fsSL https://skillhub-1388575217.cos.ap-guangzhou.myqcloud.com/install/install.sh | bash
+
+# 搜索并安装本技能
+skillhub search doctor
+skillhub install doctor
+```
+
+**方式二：从 SkillHub 网站安装**
+访问 [skillhub.cn](https://skillhub.cn) 搜索 "doctor" 找到本技能，一键安装。
+
+### 💬 在 Agent 对话中调用
+安装后，在支持 Agent Skills 的 AI 工具（如 Claude Code、OpenAI Codex CLI、Cursor 等）中：
+- 直接描述你的医疗健康需求，例如 "我头痛三天了" 或 "查询阿莫西林的副作用"
+- Agent 将自动识别医疗相关请求并加载本技能
 
 ---
 
@@ -212,6 +248,20 @@ In VS Code or Claude Code Chat, type `/doctor` or mention medical keywords to in
 ```
 
 ---
+
+## Platform Compatibility / 平台兼容性
+
+本技能遵循 [Agent Skills](https://agentskills.io/) 开放标准，兼容以下平台：
+
+| 平台 | 说明 | 安装方式 |
+|------|------|----------|
+| [SkillsMP](https://skillsmp.com) | 全球最大 Agent Skills 市场，120万+ 技能 | `npx skills add 用户名/doctor.skill` |
+| [腾讯 SkillHub](https://skillhub.cn) | 腾讯 AI Skills 社区，专为中国用户优化 | `skillhub install doctor` |
+| Claude Code | Anthropic 官方 CLI 工具 | `/plugin add <仓库地址>` |
+| OpenAI Codex CLI | OpenAI 官方 CLI 工具 | 复制到 `~/.codex/skills/` |
+| Cursor | AI 原生代码编辑器 | 项目级 `.cursor/skills/` |
+| VS Code | 微软代码编辑器 (1.98+) | 复制到 `.github/skills/` |
+| Manus | 通用 AI Agent | 从 SkillsMP 一键运行 |
 
 ## Resources / 资源索引
 

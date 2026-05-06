@@ -1,5 +1,8 @@
 # 使用指南
 
+> 本技能为跨平台 Agent Skill，已上架 [SkillsMP](https://skillsmp.com) 和 [腾讯 SkillHub](https://skillhub.cn)。
+> 在支持 Agent Skills 的 AI 工具中直接描述你的医疗健康需求即可触发。
+
 ## 🩺 症状分析
 
 **示例输入：**

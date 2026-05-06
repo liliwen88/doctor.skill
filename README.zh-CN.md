@@ -1,14 +1,16 @@
 <p align="center">
   <img src="https://img.shields.io/badge/status-active-success?style=flat-square" alt="状态" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="协议" />
-  <img src="https://img.shields.io/badge/platform-VS%20Code%20%7C%20Claude%20Code-4A90D9?style=flat-square" alt="平台" />
+  <img src="https://img.shields.io/badge/platform-SkillsMP%20%7C%20SkillHub-4A90D9?style=flat-square" alt="平台" />
   <img src="https://img.shields.io/badge/standard-Agent%20Skills-FF6B6B?style=flat-square" alt="标准" />
+  <img src="https://img.shields.io/badge/skillsmp.com-available-brightgreen?style=flat-square" alt="SkillsMP" />
+  <img src="https://img.shields.io/badge/skillhub.cn-available-brightgreen?style=flat-square" alt="SkillHub" />
 </p>
 
 <h1 align="center">🏥 医生 AI Skill</h1>
 
 <p align="center">
-  <strong>医疗健康 AI 助手 — 编辑器中的智能医疗伙伴</strong>
+  <strong>医疗健康 AI 助手 — 上架 SkillsMP 与腾讯 SkillHub</strong>
   <br />
   症状分析 · 药物查询 · 文献检索 · 术语解释 · 健康科普 · 报告解读
 </p>
@@ -18,7 +20,7 @@
   <a href="#-快速开始">快速开始</a> •
   <a href="#-使用示例">使用示例</a> •
   <a href="#-架构说明">架构</a> •
-  <a href="#-贡献指南">贡献</a> •
+  <a href="#-平台兼容">平台</a> •
   <a href="README.md">English</a>
 </p>
 
@@ -41,7 +43,32 @@
 
 ## 🚀 快速开始
 
-### 安装
+### 从 SkillsMP 安装 🛒
+
+[SkillsMP](https://skillsmp.com) 是全球最大的 Agent Skills 市场，拥有 120 万+ 技能。
+
+```bash
+# 使用 skills.sh CLI（推荐）
+npx skills add 你的GitHub用户名/doctor.skill
+
+# 或通过 Claude Code
+/plugin add https://github.com/你的GitHub用户名/doctor.skill
+```
+
+### 从腾讯 SkillHub 安装 🧩
+
+[腾讯 SkillHub](https://skillhub.cn) 是专为中国用户优化的 AI Skills 社区。
+
+```bash
+# 先安装 SkillHub CLI
+curl -fsSL https://skillhub-1388575217.cos.ap-guangzhou.myqcloud.com/install/install.sh | bash
+
+# 搜索并安装
+skillhub search doctor
+skillhub install doctor
+```
+
+### 手动安装
 
 ```bash
 # 复制到项目（团队共享）
@@ -53,21 +80,21 @@ cp -r .github/skills/doctor ~/.copilot/skills/doctor/
 
 ### 使用方式
 
-在 VS Code 或 Claude Code 的 Chat 界面中：
+在任何支持 Agent Skills 的 AI 工具（Claude Code、OpenAI Codex CLI、Cursor 等）中：
 
-1. **输入 `/doctor`** 调用技能
-2. **或直接描述健康问题** — 技能会自动识别医疗查询
+1. **直接描述健康问题** — 技能会自动识别医疗查询
+2. **或提及医疗关键词** 如症状、药物、诊断、PubMed
 
 **示例**：
 
 ```
-/doctor 我头痛3天了，还有点发烧
+我头痛3天了，还有点发烧
 → 🩺 症状分析报告与鉴别诊断
 
-/doctor 阿莫西林和布洛芬有相互作用吗？
+阿莫西林和布洛芬有相互作用吗？
 → 💊 药物相互作用报告与风险评估
 
-/doctor 搜索一下COVID-19后遗症的文献
+搜索一下COVID-19后遗症的文献
 → 📚 结构化文献摘要（含 PMID 链接）
 ```
 
@@ -96,6 +123,18 @@ cp -r .github/skills/doctor ~/.copilot/skills/doctor/
 输入：  查一下关于 AI 在医疗诊断中的应用的最新论文
 输出：  5 篇最相关的文献，含标题、作者、摘要和 PMID 链接。
 ```
+
+## 🌐 平台兼容
+
+| 平台 | 说明 | 安装方式 |
+|------|------|----------|
+| [SkillsMP](https://skillsmp.com) | 全球最大 Agent Skills 市场（120万+） | `npx skills add 用户名/doctor.skill` |
+| [腾讯 SkillHub](https://skillhub.cn) | 腾讯 AI Skills 社区 | `skillhub install doctor` |
+| Claude Code | Anthropic 官方 CLI 工具 | `/plugin add <仓库地址>` |
+| OpenAI Codex CLI | OpenAI 官方 CLI 工具 | 复制到 `~/.codex/skills/` |
+| Cursor | AI 原生代码编辑器 | 项目级 `.cursor/skills/` |
+| VS Code | 微软代码编辑器 (1.98+) | 复制到 `.github/skills/` |
+| Manus | 通用 AI Agent | 从 SkillsMP 一键运行 |
 
 ## 🏗 架构说明
 
@@ -139,7 +178,7 @@ doctor.skill/
 - **标准**：[Agent Skills](https://agentskills.io/) — 开放、可移植的格式
 - **API**：[PubMed E-utilities](https://www.ncbi.nlm.nih.gov/books/NBK25501/)（免费）、[OpenFDA](https://open.fda.gov/)（免费）
 - **语言**：Python（API 脚本）、Markdown（知识库）
-- **兼容**：VS Code 1.98+ · Claude Code · 所有支持 Agent Skills 的工具
+- **兼容**：SkillsMP · 腾讯 SkillHub · Claude Code · OpenAI Codex CLI · Cursor · VS Code 1.98+ · Manus · 所有支持 Agent Skills 的工具
 
 ## 🤝 贡献指南
 
@@ -158,6 +197,7 @@ doctor.skill/
 - ✅ PubMed & OpenFDA API 集成
 - ✅ 医学术语参考
 - ✅ 症状分析框架
+- ✅ SkillsMP & 腾讯 SkillHub 市场上架
 
 ### v1.1（即将推出）
 - 🔄 增强的药物相互作用数据库
@@ -187,5 +227,5 @@ doctor.skill/
 <p align="center">
   <strong>用 ❤️ 为医疗和开源构建</strong>
   <br />
-  <sub>本项目遵循 <a href="https://agentskills.io/">Agent Skills</a> 开放标准</sub>
+  <sub>上架 <a href="https://skillsmp.com">SkillsMP</a> · <a href="https://skillhub.cn">腾讯 SkillHub</a> · 遵循 <a href="https://agentskills.io/">Agent Skills</a> 开放标准</sub>
 </p>
