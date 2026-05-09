@@ -43,6 +43,13 @@ tmp/
 temp/
 *.tmp
 
+# Python
+__pycache__/
+*.pyc
+
+# Claude Code (local settings)
+.claude/
+
 # GitHub Pages
 _site/
 docs/_site/

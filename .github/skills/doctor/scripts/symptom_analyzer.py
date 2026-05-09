@@ -8,7 +8,7 @@ Usage: Called by SKILL.md when user describes symptoms for analysis.
 API: OpenFDA (optional, for adverse event correlation)
 """
 
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 from typing import Optional
 
 

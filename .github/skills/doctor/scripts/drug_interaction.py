@@ -11,6 +11,7 @@ Docs: https://open.fda.gov/apis/drug/
 
 import json
 import os
+import re
 import urllib.parse
 import urllib.request
 from typing import Optional
@@ -197,7 +198,7 @@ def format_drug_info(result: dict) -> str:
     if drug.get("manufacturer"):
         output += f"**生产商**：{drug['manufacturer']}\n"
 
-    for label_key, label_title, list_key in [
+    for label_key, list_key in [
         ("✅ 适应症", "indications"),
         ("⚠️ 副作用", "sideEffects"),
         ("⚡ 药物相互作用", "interactions"),
@@ -207,7 +208,7 @@ def format_drug_info(result: dict) -> str:
         if items:
             output += f"\n**{label_key}**：\n"
             for item in items[:3]:
-                text = item.replace("<[^>]+>", "")[:200]
+                text = re.sub(r"<[^>]+>", "", item)[:200]
                 output += f"- {text}\n"
 
     output += (

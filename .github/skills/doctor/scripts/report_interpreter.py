@@ -33,7 +33,7 @@ REFERENCE_RANGES = {
         "sig_low": "贫血",
         "sig_high": "红细胞增多症、慢性缺氧",
     },
-    "Hb": {
+    "HB": {
         "name": "血红蛋白",
         "unit": "g/L",
         "range": "130-175 (男) / 115-150 (女)",
@@ -163,7 +163,7 @@ REFERENCE_RANGES = {
         "sig_high": "高 LDL 是心血管疾病主要风险因素",
     },
     # Diabetes
-    "HbA1c": {
+    "HBA1C": {
         "name": "糖化血红蛋白",
         "unit": "%",
         "range": "4.0-6.0",
@@ -256,7 +256,7 @@ def interpret_report(raw_data: str) -> dict:
     """
     lines = [l.strip() for l in raw_data.split("\n") if l.strip()]
     tests = []
-    report_type = "一般检验报告"
+    matched_keys = set()
 
     for line in lines:
         parsed = _parse_test_line(line)
@@ -264,6 +264,7 @@ def interpret_report(raw_data: str) -> dict:
             key, value = parsed
             ref = REFERENCE_RANGES.get(key.upper())
             if ref:
+                matched_keys.add(key.upper())
                 numeric_value = _parse_float(value)
                 status = _evaluate_status(numeric_value, ref)
 
@@ -283,13 +284,20 @@ def interpret_report(raw_data: str) -> dict:
                 })
 
     # Determine report type
-    test_names = {t["name"][:3] for t in tests}
-    if test_names & {"WBC", "RBC", "Hb", "PLT"}:
+    if matched_keys & {"WBC", "RBC", "HB", "PLT", "NEUT", "LYMPH"}:
         report_type = "血常规 (Complete Blood Count)"
-    elif test_names & {"ALT", "AST", "CRE", "BUN"}:
+    elif matched_keys & {"ALT", "AST", "CREA", "BUN", "GLU", "K", "NA"}:
         report_type = "生化全套 (Comprehensive Metabolic Panel)"
-    elif test_names & {"TC", "TG", "HDL", "LDL"}:
+    elif matched_keys & {"TC", "TG", "HDL", "LDL"}:
         report_type = "血脂全套 (Lipid Panel)"
+    elif matched_keys & {"TSH", "FT4"}:
+        report_type = "甲状腺功能 (Thyroid Function)"
+    elif matched_keys & {"PT", "APTT", "INR"}:
+        report_type = "凝血功能 (Coagulation)"
+    elif matched_keys & {"TNI", "BNP"}:
+        report_type = "心脏标志物 (Cardiac Markers)"
+    else:
+        report_type = "一般检验报告"
 
     abnormal = [t for t in tests if t["status"] != "normal"]
     recommendations = _generate_recommendations(abnormal)
