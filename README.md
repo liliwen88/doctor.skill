@@ -214,18 +214,18 @@ Output: 📚 Top 5 articles with titles, authors, journal,
 │                       SKILL.md (Router)                           │
 │  10 features · 6 groups · SOAP output · Guideline-based          │
 └──┬────────┬────────┬────────┬────────┬──────────┬───────────────┘
-   │        │        │        │        │          │
+   │        │        │        │        │          │               │
    ▼        ▼        ▼        ▼        ▼          ▼
  Acute    Prev-    Chronic   Drug     Lab      Pediatric
  Care     entive   Disease   Info     Report   Care
-   │        │        │        │        │          │
+   │        │        │        │        │          │               │
    ▼        ▼        ▼        ▼        ▼          ▼
 Triage   USPSTF   ACC/AHA  OpenFDA  Ref.Ranges  WHO MGRS
 Symptom  CDC      ADA       DailyMed  Adult +    AAP/NICE
 Analyzer ACIP     GINA/GOLD RxNorm   Pediatric   Milestones
 (12 types)        ATA
-   │        │        │        │        │          │
-   └────────┴────────┴────────┴────────┴──────────┘
+   │        │        │        │        │          │               │
+   └────────┴────────┴────────┴────────┴──────────┴───────────────┘
                          │
                          ▼
               PubMed + ClinicalTrials.gov
