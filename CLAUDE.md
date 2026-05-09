@@ -81,5 +81,6 @@ No third-party packages. All 9 scripts use only stdlib. APIs called: OpenFDA (dr
 ## CI
 
 Two GitHub Actions workflows (`.github/workflows/`):
+
 - **`ci.yml`** (push/PR to `main`): Node 20 on ubuntu-latest. Runs `npm run lint`, `npm run format`, and `python -m py_compile` on all scripts (glob catches new scripts automatically). Also validates `SKILL.md` exists and has YAML frontmatter.
 - **`release.yml`** (tag push `v*`): Creates GitHub Release with changelog from git log, attaches LICENSE and SKILL.md.

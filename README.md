@@ -7,26 +7,93 @@
   <img src="https://img.shields.io/badge/skillhub.cn-available-brightgreen?style=flat-square" alt="SkillHub" />
 </p>
 
-<h1 align="center">🏥 Family Health Doctor Skill</h1>
+<h1 align="center">🏥 Family Health Doctor</h1>
 
 <p align="center">
   <strong>Family Health Doctor / 家庭保健医生 — Available on SkillsMP &amp; Tencent SkillHub</strong>
   <br />
-  Triage · Symptom Analysis (12 types) · Preventive Care (USPSTF+CDC) · Chronic Disease (6 guidelines) · Drug Info (OpenFDA+DailyMed) · Lab Report (Adult+Pediatric) · Pediatric Care · Literature Search · Clinical Trials · SOAP Notes
+  Triage · Symptom Analysis (12 types) · Preventive Care (USPSTF+CDC) · Chronic Disease (6 guidelines) · Drug Info (OpenFDA+DailyMed+RxNorm) · Lab Report (Adult+Pediatric) · Pediatric Care · Literature Search · Clinical Trials · SOAP Notes
 </p>
 
 <p align="center">
+  <a href="#-trilingual-quick-start">Quick Start</a> •
   <a href="#-features">Features</a> •
-  <a href="#-quick-start">Quick Start</a> •
-  <a href="#-usage-examples">Usage</a> •
   <a href="#-architecture">Architecture</a> •
   <a href="#-authoritative-sources">Authoritative Sources</a> •
-  <a href="README.zh-CN.md">中文版</a>
+  <a href="README.zh-CN.md">中文版</a> •
+  <a href="README.ja.md">日本語</a>
 </p>
 
 ---
 
-> ⚠️ **IMPORTANT DISCLAIMER**: This skill provides information for **reference purposes only** and does **NOT** constitute professional medical advice, diagnosis, or treatment. Always consult qualified healthcare professionals for medical concerns. In emergencies, call emergency services immediately.
+> ⚠️ **IMPORTANT DISCLAIMER**: This skill provides information for **reference purposes only** and does **NOT** constitute professional medical advice, diagnosis, or treatment. Always consult qualified healthcare professionals for medical concerns. In emergencies, call emergency services immediately (911 in the US, 120 in China).
+
+---
+
+## 🌐 Trilingual Quick Start
+
+<table>
+<tr>
+<td width="33%" valign="top">
+
+### 🇺🇸 EN · English
+
+**Preferred Platform:** [SkillsMP](https://skillsmp.com)
+
+```bash
+npx skills add liliwen88/doctor.skill
+```
+
+**Try it:**
+
+```text
+I've had a headache for 3 days
+with fever and stiff neck
+→ Triage → Symptom analysis
+  with differential diagnosis
+```
+
+</td>
+<td width="33%" valign="top">
+
+### 🇨🇳 中文 · Chinese
+
+**首选平台：**[腾讯 SkillHub](https://skillhub.cn)
+
+```bash
+skillhub install doctor
+```
+
+**试试看：**
+
+```text
+头痛3天，伴有发烧和颈部僵硬
+→ 分诊评估 → 症状分析
+  鉴别诊断报告
+```
+
+</td>
+<td width="33%" valign="top">
+
+### 🇯🇵 日本語 · Japanese
+
+**推奨プラットフォーム:** [SkillsMP](https://skillsmp.com)
+
+```bash
+npx skills add liliwen88/doctor.skill
+```
+
+**お試し:**
+
+```text
+3日間の頭痛、発熱と首のこわばり
+→ トリアージ → 症状分析
+  鑑別診断レポート
+```
+
+</td>
+</tr>
+</table>
 
 ---
 
@@ -35,19 +102,19 @@
 | # | Feature | Description | Data Source |
 |---|---------|-------------|-------------|
 | 🔴 | **Triage System** | 4-level urgency assessment with ~30 red-flag patterns across 8 body systems | Rule-based (ACEP/NICE) |
-| 🩺 | **Symptom Analysis** | 12 symptom types with structured differential diagnosis | OpenFDA + Knowledge Base |
+| 🩺 | **Symptom Analysis** | 12 symptom types with structured differential diagnosis | Knowledge Base + AI |
 | 🛡️ | **Preventive Care** | Personalized USPSTF A&B screening + CDC vaccination schedule by age/sex/risk | USPSTF + CDC ACIP |
 | 💙 | **Chronic Disease** | Guideline-based targets for HTN, DM, lipids, asthma, COPD, hypothyroid | ACC/AHA, ADA, GINA, GOLD, ATA |
 | 💊 | **Drug Information** | Drug details, interactions, multi-source fallback (OpenFDA+DailyMed+RxNorm) | OpenFDA + DailyMed + RxNorm |
 | 📋 | **Lab Report** | Adult + pediatric reference ranges, 26+ tests, critical value detection | Knowledge Base |
-| 👶 | **Pediatric Care** | Age-stratified lab ranges, growth milestones, fever triage | AAP/NICE + WHO MGRS |
+| 👶 | **Pediatric Care** | Age-stratified lab ranges, growth milestones, fever triage (0-18y) | AAP/NICE + WHO MGRS |
 | 📚 | **Literature Search** | PubMed + ClinicalTrials.gov search with structured results | PubMed + ClinicalTrials.gov |
-| 📖 | **Terminology** | Bilingual medical terminology (EN/CN), preventive + pediatric + mental health | Built-in Reference |
+| 📖 | **Terminology** | Bilingual medical terminology (EN/CN), preventive, pediatric, mental health | Built-in Reference |
 | ✍️ | **SOAP Notes & Writing** | SOAP-format clinical documentation + patient education + health articles | Templates + AI |
 
-## 🚀 Quick Start
+## 🚀 Installation
 
-### Installation from SkillsMP 🛒
+### From SkillsMP 🛒
 
 [SkillsMP](https://skillsmp.com) is the largest Agent Skills marketplace with 1.2M+ skills.
 
@@ -59,7 +126,7 @@ npx skills add liliwen88/doctor.skill
 /plugin add https://github.com/liliwen88/doctor.skill
 ```
 
-### Installation from Tencent SkillHub 🧩
+### From Tencent SkillHub 🧩
 
 [腾讯 SkillHub](https://skillhub.cn) is a Chinese AI Skills community optimized for China users.
 
@@ -82,57 +149,48 @@ cp -r .github/skills/doctor /path/to/your/project/.github/skills/
 cp -r .github/skills/doctor ~/.copilot/skills/doctor/
 ```
 
-### Usage
-
-In any Agent Skills-compatible AI tool (Claude Code, OpenAI Codex CLI, Cursor, etc.), simply:
-
-1. **Describe your health concern** directly — the skill auto-detects medical queries
-2. **Or mention medical keywords** such as symptom, drug, diagnosis, PubMed
-
-**Examples**:
-
-```
-I've had a headache for 3 days with fever
-→ 🩺 Symptom analysis report with differential diagnosis
-
-check drug interaction between amoxicillin and ibuprofen
-→ 💊 Drug interaction report with severity assessment
-
-search PubMed for COVID-19 long-term effects
-→ 📚 Structured literature summary with PMID links
-```
-
 ## 📖 Usage Examples
+
+### 🔴 Triage (Always First)
+
+```text
+Input:  I have sudden chest pain radiating to my left arm,
+        with shortness of breath. 55-year-old male, history of HTN.
+Output: 🔴 EMERGENCY — Call 911 immediately.
+        Suspected acute coronary syndrome. Stop all further analysis.
+```
 
 ### 🩺 Symptom Analysis
 
-```
-Input:  I have chest pain that gets worse when walking, and I feel short of breath.
-        I'm a 55-year-old male with a history of hypertension.
-Output: Structured analysis with risk assessment, differential diagnoses,
-        and recommended actions including emergency warning if needed.
+```text
+Input:  I've had lower back pain for 2 weeks, worse when sitting.
+        No fever, no trauma history. 35-year-old office worker.
+Output: 🟡 Non-urgent. Structured SOAP analysis with differential
+        diagnoses (muscle strain, disc herniation, etc.) and follow-up plan.
 ```
 
 ### 💊 Drug Interaction Check
 
-```
-Input:  What are the side effects of metformin?
-Output: Drug information including indications, side effects, contraindications,
-        and interaction check with current medications.
+```text
+Input:  Check interaction between warfarin and ibuprofen.
+Output: 💊 SEVERE interaction — increased bleeding risk.
+        Avoid combination. Consider acetaminophen as alternative.
+        Source: OpenFDA + DailyMed.
 ```
 
 ### 📚 PubMed Literature Search
 
-```
-Input:  Find recent papers about AI in medical diagnosis
-Output: Top 5 relevant articles with titles, authors, abstracts, and PMID links.
+```text
+Input:  Find recent papers about AI in medical diagnosis.
+Output: 📚 Top 5 articles with titles, authors, journal,
+        abstracts, and PMID links from PubMed.
 ```
 
 ## 🌐 Platform Compatibility
 
 | Platform | Description | Installation |
 |----------|-------------|-------------|
-| [SkillsMP](https://skillsmp.com) | Largest Agent Skills marketplace (1.2M+ skills) | `npx skills add username/doctor.skill` |
+| [SkillsMP](https://skillsmp.com) | Largest Agent Skills marketplace (1.2M+ skills) | `npx skills add liliwen88/doctor.skill` |
 | [腾讯 SkillHub](https://skillhub.cn) | Tencent AI Skills community for China users | `skillhub install doctor` |
 | Claude Code | Anthropic official CLI tool | `/plugin add <repo-url>` |
 | OpenAI Codex CLI | OpenAI official CLI tool | Copy to `~/.codex/skills/` |
@@ -142,7 +200,7 @@ Output: Top 5 relevant articles with titles, authors, abstracts, and PMID links.
 
 ## 🏗 Architecture
 
-```
+```text
                          ┌──────────────┐
                          │   User Input  │
                          └──────┬────────┘
@@ -176,16 +234,18 @@ Analyzer ACIP     GINA/GOLD RxNorm   Pediatric   Milestones
 
 ### Project Structure
 
-```
+```text
 doctor.skill/
 ├── .github/skills/doctor/     # 🎯 Core Skill Package
 │   ├── SKILL.md                # Main skill entry point (10 features)
 │   ├── scripts/                # 9 Python API scripts (stdlib only)
 │   ├── references/             # 12 medical reference files
-│   └── assets/templates/       # 3 output templates
+│   └── assets/templates/       # 6 output templates
 ├── docs/                       # Full documentation
 ├── premium/                    # Premium features info
-├── README.md                   # This file
+├── README.md                   # This file (EN)
+├── README.zh-CN.md             # Chinese README
+├── README.ja.md                # Japanese README
 ├── LICENSE                     # MIT License
 └── ...
 ```
@@ -205,12 +265,13 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 - 🐛 Report bugs via [Issues](https://github.com/liliwen88/doctor.skill/issues)
 - 💡 Suggest features via [Issues](https://github.com/liliwen88/doctor.skill/issues)
 - ⚕️ Update medical knowledge references (guidelines, drug data, lab ranges)
-- 🌐 Help with translations (especially bilingual content)
+- 🌐 Help with translations (especially bilingual/trilingual content)
 - 💻 Improve API scripts (error handling, new data sources)
 
 ## 📈 Roadmap
 
 ### v2.0 (Current) — Family Health Doctor
+
 - ✅ 10 core medical features including triage, preventive care, chronic disease management
 - ✅ 9 Python scripts, 12 reference files, 6 templates
 - ✅ Multi-source drug data (OpenFDA + DailyMed + RxNorm)
@@ -222,6 +283,7 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 - ✅ SkillsMP & Tencent SkillHub marketplace listing
 
 ### v2.1 (Planned)
+
 - 🔄 Premium features (see [premium/](premium/))
 - 🔄 FHIR-compatible data exchange
 - 🔄 Multi-language medical dictionary

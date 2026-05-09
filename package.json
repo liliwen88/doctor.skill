@@ -1,5 +1,5 @@
 {
-  "name": "doctor-skill",
+  "name": "family-health-doctor",
   "version": "2.0.0",
   "description": "家庭保健医生 / Family Health Doctor — 支持 SkillsMP 和腾讯 SkillHub 平台的 Agent Skill。分诊评估、症状分析（12种）、预防保健（USPSTF+CDC）、慢性病管理（6种疾病指南）、药物查询（OpenFDA+DailyMed+RxNorm）、检验解读（含儿科）、文献检索、儿科护理、医学术语、健康科普、SOAP临床记录。",
   "keywords": [

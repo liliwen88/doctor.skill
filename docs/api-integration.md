@@ -14,7 +14,7 @@
 | **认证** | 无需 API Key（可选 API Key 可提升频率限制） |
 | **频率限制** | 无 Key：3 次/秒；有 Key：10 次/秒 |
 
-### 调用示例
+### PubMed 调用示例
 
 ```bash
 # 检索文献
@@ -34,7 +34,7 @@ curl "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=PMI
 | **认证** | 免费，无需 API Key |
 | **频率限制** | 240 次/分钟 |
 
-### 调用示例
+### OpenFDA 调用示例
 
 ```bash
 # 查询药物信息
