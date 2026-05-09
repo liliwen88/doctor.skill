@@ -11,7 +11,6 @@ Docs: https://www.ncbi.nlm.nih.gov/books/NBK25501/
 
 import json
 import os
-import re
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET

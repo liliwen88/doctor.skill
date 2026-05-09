@@ -161,13 +161,14 @@ def _analyze_headache(input_data: SymptomInput) -> list:
             redFlags=[],
         ))
 
-    diagnoses.append(DifferentialDiagnosis(
-        condition="头痛待查 / Headache of Unknown Origin",
-        likelihood="moderate",
-        keyFeatures=[f"主诉：{input_data.mainSymptom}，持续 {input_data.duration}"],
-        recommendedTests=["血常规、CRP", "如有需要：头颅 CT/MRI"],
-        redFlags=["突发剧烈头痛", "头痛 + 发热 + 颈强直", "进行性加重"],
-    ))
+    if not diagnoses:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="头痛待查 / Headache of Unknown Origin",
+            likelihood="moderate",
+            keyFeatures=[f"主诉：{input_data.mainSymptom}，持续 {input_data.duration}"],
+            recommendedTests=["血常规、CRP", "如有需要：头颅 CT/MRI"],
+            redFlags=["突发剧烈头痛", "头痛 + 发热 + 颈强直", "进行性加重"],
+        ))
 
     return diagnoses
 
@@ -342,13 +343,12 @@ def _generate_suggested_actions(diagnoses: list, emergency_signals: list) -> lis
     if emergency_signals:
         actions.append("🔴 **立即就医**：存在危险信号，请立即前往急诊")
 
-    # Collect unique recommended tests
-    tests = set()
-    for d in diagnoses:
-        for t in d.recommendedTests:
-            tests.add(t)
+    # Collect unique recommended tests in insertion order
+    tests = list(dict.fromkeys(
+        t for d in diagnoses for t in d.recommendedTests
+    ))
     if tests:
-        actions.append(f"🩺 **建议检查**：{'、'.join(list(tests)[:5])}")
+        actions.append(f"🩺 **建议检查**：{'、'.join(tests[:5])}")
 
     actions.append("📝 **建议记录**：详细记录症状变化，就诊时告知医生完整病史")
     actions.append("🏥 **就医建议**：症状持续或加重时及时就医")

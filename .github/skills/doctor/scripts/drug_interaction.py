@@ -10,7 +10,6 @@ Docs: https://open.fda.gov/apis/drug/
 """
 
 import json
-import os
 import re
 import urllib.parse
 import urllib.request
@@ -116,65 +115,6 @@ def _query_drug_events(drug_name: str) -> dict:
         return {"drug": None, "error": str(e)}
 
 
-# Known interaction pairs (simplified reference)
-_KNOWN_INTERACTIONS = {
-    "warfarin": {
-        "aspirin": "高风险 — 显著增加出血风险，避免合用",
-        "ibuprofen": "高风险 — 增加出血风险，避免合用",
-        "naproxen": "高风险 — 增加出血风险，避免合用",
-    },
-    "aspirin": {
-        "warfarin": "高风险 — 显著增加出血风险，避免合用",
-        "ibuprofen": "中风险 — 可能降低阿司匹林心血管保护作用",
-        "methotrexate": "高风险 — 增加甲氨蝶呤毒性",
-    },
-    "metformin": {
-        "contrast dye": "中风险 — 碘造影剂可能增加乳酸酸中毒风险",
-    },
-}
-
-
-def check_interaction(drug_a: str, drug_b: str) -> dict:
-    """
-    Check interactions between two drugs using knowledge base.
-
-    Note: OpenFDA doesn't have a direct interaction API; this uses
-    the built-in knowledge and drug database as reference.
-
-    Args:
-        drug_a: First drug name
-        drug_b: Second drug name
-
-    Returns:
-        dict with severity and description
-    """
-    a = drug_a.lower()
-    b = drug_b.lower()
-
-    # Check both directions
-    interaction = (
-        _KNOWN_INTERACTIONS.get(a, {}).get(b)
-        or _KNOWN_INTERACTIONS.get(b, {}).get(a)
-    )
-
-    if interaction:
-        if "高风险" in interaction:
-            severity = "high"
-        elif "中风险" in interaction:
-            severity = "moderate"
-        else:
-            severity = "low"
-        return {"severity": severity, "description": interaction}
-
-    return {
-        "severity": "unknown",
-        "description": (
-            f"未在本地知识库中找到 {drug_a} 与 {drug_b} 的明确相互作用记录。\n\n"
-            "> 建议使用 OpenFDA、DrugBank 等专业数据库查询完整信息，或咨询药师。"
-        ),
-    }
-
-
 def format_drug_info(result: dict) -> str:
     """Format drug information as a readable markdown string."""
     if result.get("error"):
@@ -231,5 +171,3 @@ if __name__ == "__main__":
     # Quick test
     result = query_drug_info("aspirin")
     print(format_drug_info(result))
-    print("\n---\n")
-    print(check_interaction("aspirin", "warfarin"))

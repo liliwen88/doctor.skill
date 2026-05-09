@@ -1,7 +1,7 @@
 ---
 name: doctor
-description: '医疗健康 AI 助手。用于：症状分析、药物信息查询与相互作用检查、医学文献检索与总结、医学术语解释、健康科普写作、医疗报告解读。Use when: you need medical information, symptom analysis, drug interaction checking, PubMed literature search, medical terminology explanation, health writing, or lab report interpretation.'
-argument-hint: '描述你的医疗健康需求，例如症状、药物名称、医学术语等'
+description: "医疗健康 AI 助手。用于：症状分析、药物信息查询与相互作用检查、医学文献检索与总结、医学术语解释、健康科普写作、医疗报告解读。Use when: you need medical information, symptom analysis, drug interaction checking, PubMed literature search, medical terminology explanation, health writing, or lab report interpretation."
+argument-hint: "描述你的医疗健康需求，例如症状、药物名称、医学术语等"
 user-invocable: true
 context: fork
 platform:
@@ -28,47 +28,6 @@ platform:
 - ✍️ **健康科普** — 生成专业的健康科普文章
 - 📋 **报告解读** — 解读常见的医学检验报告
 
-## How to Invoke / 如何调用
-
-### 📦 从 SkillsMP 安装
-本技能已在 [SkillsMP](https://skillsmp.com) — 全球最大的 Agent Skills 市场 上架。您可以通过以下方式安装：
-
-**方式一（推荐）：使用 skills.sh 命令行工具**
-```bash
-npx skills add 您的GitHub用户名/doctor.skill
-```
-
-**方式二：在 Claude Code 中直接安装**
-```
-/plugin add https://github.com/您的GitHub用户名/doctor.skill
-```
-
-**方式三：从 SkillsMP 网站安装**
-访问 [skillsmp.com](https://skillsmp.com) 搜索 "doctor" 找到本技能，一键安装到您的 Agent。
-
-### 📦 从腾讯 SkillHub 安装
-本技能已在 [腾讯 SkillHub](https://skillhub.cn) — 专为中国用户优化的 AI Skills 社区 上架。
-
-**方式一：使用 SkillHub CLI 安装**
-```bash
-# 安装 SkillHub CLI（如未安装）
-curl -fsSL https://skillhub-1388575217.cos.ap-guangzhou.myqcloud.com/install/install.sh | bash
-
-# 搜索并安装本技能
-skillhub search doctor
-skillhub install doctor
-```
-
-**方式二：从 SkillHub 网站安装**
-访问 [skillhub.cn](https://skillhub.cn) 搜索 "doctor" 找到本技能，一键安装。
-
-### 💬 在 Agent 对话中调用
-安装后，在支持 Agent Skills 的 AI 工具（如 Claude Code、OpenAI Codex CLI、Cursor 等）中：
-- 直接描述你的医疗健康需求，例如 "我头痛三天了" 或 "查询阿莫西林的副作用"
-- Agent 将自动识别医疗相关请求并加载本技能
-
----
-
 ## Procedures / 操作流程
 
 ### 1. 🩺 症状分析与鉴别诊断 (Symptom Analysis)
@@ -76,6 +35,7 @@ skillhub install doctor
 **When**: 用户描述症状后触发
 
 **Procedure**:
+
 1. 收集关键信息：
    - 主要症状及持续时间
    - 伴随症状
@@ -88,15 +48,17 @@ skillhub install doctor
 5. 如需要，使用 [症状分析脚本](../scripts/symptom_analyzer.py) 查询 OpenFDA 数据
 
 **Output Format**:
+
 ```markdown
 ### 症状分析报告
 
 **主诉**: [症状描述]
 **分析**:
+
 - 可能原因 1: [说明]
 - 可能原因 2: [说明]
-**建议**: [进一步的检查或就医建议]
-> ⚠️ 本分析仅供参考，请咨询医生获得专业诊断。
+  **建议**: [进一步的检查或就医建议]
+  > ⚠️ 本分析仅供参考，请咨询医生获得专业诊断。
 ```
 
 ### 2. 💊 药物信息查询与相互作用检查 (Drug Information)
@@ -104,6 +66,7 @@ skillhub install doctor
 **When**: 用户查询药物信息
 
 **Procedure**:
+
 1. 识别药物名称（通用名/商品名）
 2. 调用 [药物相互作用脚本](../scripts/drug_interaction.py) 查询 OpenFDA API
 3. 返回结构化信息：
@@ -115,6 +78,7 @@ skillhub install doctor
 4. 参考 [药物数据库](../references/drug-database.md) 补充信息
 
 **Output Format**:
+
 ```markdown
 ### 药物信息报告
 
@@ -123,6 +87,7 @@ skillhub install doctor
 **适应症**: [适应症列表]
 **常见副作用**: [副作用列表]
 **药物相互作用**: [与其他药物的相互作用]
+
 > ⚠️ 本信息仅供参考，用药请遵医嘱。
 ```
 
@@ -131,6 +96,7 @@ skillhub install doctor
 **When**: 用户需要查找医学文献
 
 **Procedure**:
+
 1. 提取关键词
 2. 调用 [PubMed 检索脚本](../scripts/fetch_pubmed.py) 查询 PubMed API
 3. 返回检索结果摘要（最多 5 篇）
@@ -142,6 +108,7 @@ skillhub install doctor
    - PMID / DOI
 
 **Output Format**:
+
 ```markdown
 ### 文献检索结果
 
@@ -160,6 +127,7 @@ skillhub install doctor
 **When**: 用户询问医学专业术语
 
 **Procedure**:
+
 1. 提取需要解释的术语
 2. 参考 [医学术语表](../references/medical-terms.md)
 3. 提供：
@@ -169,6 +137,7 @@ skillhub install doctor
    - 相关术语链接
 
 **Output Format**:
+
 ```markdown
 ### 医学术语解释
 
@@ -184,6 +153,7 @@ skillhub install doctor
 **When**: 用户需要生成健康科普内容
 
 **Procedure**:
+
 1. 确定主题和目标读者
 2. 参考 [健康科普文章模板](../assets/templates/health-article.md)
 3. 生成结构化内容：
@@ -195,6 +165,7 @@ skillhub install doctor
 4. 语言通俗易懂，适合大众阅读
 
 **Output Format**:
+
 ```markdown
 ### [科普文章标题]
 
@@ -203,12 +174,15 @@ skillhub install doctor
 [引言段落]
 
 #### [小标题 1]
+
 [内容]
 
 #### [小标题 2]
+
 [内容]
 
 **📌 关键要点**:
+
 - [要点 1]
 - [要点 2]
 
@@ -220,6 +194,7 @@ skillhub install doctor
 **When**: 用户提供医学检验/检查报告内容
 
 **Procedure**:
+
 1. 解析报告中的项目和数值
 2. 参考 [报告解读脚本](../scripts/report_interpreter.py)
 3. 提供：
@@ -229,55 +204,26 @@ skillhub install doctor
    - 系统性分析
 
 **Output Format**:
+
 ```markdown
 ### 检验报告解读
 
 **报告类型**: [检验类别]
 
-| 项目 | 结果 | 参考范围 | 状态 |
-|------|------|----------|------|
-| [项目1] | [值] | [范围] | ✅/⬆️/⬇️ |
-| [项目2] | [值] | [范围] | ✅/⬆️/⬇️ |
+| 项目    | 结果 | 参考范围 | 状态     |
+| ------- | ---- | -------- | -------- |
+| [项目1] | [值] | [范围]   | ✅/⬆️/⬇️ |
+| [项目2] | [值] | [范围]   | ✅/⬆️/⬇️ |
 
 **异常值分析**:
+
 - ⬆️ [项目] 升高可能提示：[临床意义]
 - ⬇️ [项目] 降低可能提示：[临床意义]
 
 **综合建议**: [基于整体结果的建议]
+
 > ⚠️ 本解读仅供参考，请咨询医生获得专业诊断。
 ```
-
----
-
-## Platform Compatibility / 平台兼容性
-
-本技能遵循 [Agent Skills](https://agentskills.io/) 开放标准，兼容以下平台：
-
-| 平台 | 说明 | 安装方式 |
-|------|------|----------|
-| [SkillsMP](https://skillsmp.com) | 全球最大 Agent Skills 市场，120万+ 技能 | `npx skills add 用户名/doctor.skill` |
-| [腾讯 SkillHub](https://skillhub.cn) | 腾讯 AI Skills 社区，专为中国用户优化 | `skillhub install doctor` |
-| Claude Code | Anthropic 官方 CLI 工具 | `/plugin add <仓库地址>` |
-| OpenAI Codex CLI | OpenAI 官方 CLI 工具 | 复制到 `~/.codex/skills/` |
-| Cursor | AI 原生代码编辑器 | 项目级 `.cursor/skills/` |
-| VS Code | 微软代码编辑器 (1.98+) | 复制到 `.github/skills/` |
-| Manus | 通用 AI Agent | 从 SkillsMP 一键运行 |
-
-## Resources / 资源索引
-
-| 资源 | 路径 | 用途 |
-|------|------|------|
-| 📋 症状分析框架 | [symptom-checklist.md](../references/symptom-checklist.md) | 症状分析的标准化流程 |
-| 🔬 鉴别诊断框架 | [differential-diagnosis.md](../references/differential-diagnosis.md) | 鉴别诊断的推理方法 |
-| 💊 药物数据库 | [drug-database.md](../references/drug-database.md) | 常用药物信息的参考 |
-| 📖 医学术语表 | [medical-terms.md](../references/medical-terms.md) | 医学专业术语的解释 |
-| 📝 科普文章模板 | [assets/templates/health-article.md](../assets/templates/health-article.md) | 健康科普写作模板 |
-| 📋 诊断报告模板 | [assets/templates/diagnosis-report.md](../assets/templates/diagnosis-report.md) | 诊断报告输出模板 |
-| 🏥 咨询记录模板 | [assets/templates/consultation-note.md](../assets/templates/consultation-note.md) | 医疗咨询记录模板 |
-| 🔎 PubMed 检索 | [scripts/fetch_pubmed.py](../scripts/fetch_pubmed.py) | 医学文献检索脚本 |
-| 💊 药物相互作用 | [scripts/drug_interaction.py](../scripts/drug_interaction.py) | 药物信息查询脚本 |
-| 🩺 症状分析 | [scripts/symptom_analyzer.py](../scripts/symptom_analyzer.py) | 症状分析辅助脚本 |
-| 📋 报告解读 | [scripts/report_interpreter.py](../scripts/report_interpreter.py) | 检验报告解读脚本 |
 
 ---
 
