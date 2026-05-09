@@ -7,12 +7,12 @@
   <img src="https://img.shields.io/badge/skillhub.cn-available-brightgreen?style=flat-square" alt="SkillHub" />
 </p>
 
-<h1 align="center">🏥 Family Health Doctor Skill（家庭保健医生）</h1>
+<h1 align="center">🏥 医生 AI Skill</h1>
 
 <p align="center">
-  <strong>开源 AI 家庭医学助手 — 上架腾讯 SkillHub 与 SkillsMP</strong>
+  <strong>医疗健康 AI 助手 — 上架 SkillsMP 与腾讯 SkillHub</strong>
   <br />
-  分诊评估 · 症状分析（12种）· 预防保健（USPSTF+CDC）· 慢性病管理（6种指南）· 药物查询（三源）· 检验解读（成人+儿科）· 儿科护理 · 文献检索 · 临床试验 · SOAP 临床记录
+  症状分析 · 药物查询 · 文献检索 · 术语解释 · 健康科普 · 报告解读
 </p>
 
 <p align="center">

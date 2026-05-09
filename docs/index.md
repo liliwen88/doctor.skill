@@ -1,6 +1,6 @@
-# Family Health Doctor Skill（家庭保健医生）文档
+# 医生 AI Skill 文档
 
-> 开源 AI 家庭医学助手 — 上架腾讯 SkillHub 与 SkillsMP 的 Agent Skill
+> 医疗健康 AI 助手 — 上架 SkillsMP 与腾讯 SkillHub 的 Agent Skill
 
 ## 📚 文档目录
 
