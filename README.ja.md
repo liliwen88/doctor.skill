@@ -10,7 +10,7 @@
 <h1 align="center">🏥 Family Health Doctor</h1>
 
 <p align="center">
-  <strong>Family Health Doctor（ファミリーヘルスドクター）— SkillsMP と Tencent SkillHub で利用可能</strong>
+  <strong>Family Health Doctor — AI医療アシスタント（ファミリーヘルスドクター）— SkillsMP と Tencent SkillHub で利用可能</strong>
   <br />
   トリアージ · 症状分析（12種類） · 予防ケア（USPSTF+CDC） · 慢性疾患管理（6ガイドライン） · 医薬品情報（OpenFDA+DailyMed+RxNorm） · 検査レポート（成人+小児） · 小児ケア · 文献検索 · 臨床試験 · SOAP記録
 </p>

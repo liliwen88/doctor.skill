@@ -10,7 +10,7 @@
 <h1 align="center">🏥 Family Health Doctor（家庭保健医生）</h1>
 
 <p align="center">
-  <strong>Family Health Doctor / 家庭保健医生 — 上架 SkillsMP 与腾讯 SkillHub</strong>
+  <strong>Family Health Doctor — AI医疗助手 / 家庭保健医生 — 上架 SkillsMP 与腾讯 SkillHub</strong>
   <br />
   分诊评估 · 症状分析（12种） · 预防保健（USPSTF+CDC） · 慢性病管理（6项指南） · 药物查询（OpenFDA+DailyMed+RxNorm） · 检验解读（成人+儿科） · 儿科护理 · 文献检索 · 临床试验 · SOAP临床记录
 </p>

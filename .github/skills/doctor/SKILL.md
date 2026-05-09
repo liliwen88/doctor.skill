@@ -1,6 +1,6 @@
 ---
 name: doctor
-description: "家庭保健医生 / Family Health Doctor。提供分诊评估、症状分析、预防保健、慢性病管理、药物查询、检验解读、文献检索、儿科护理、医学术语解释、健康科普写作。Use when: you need medical triage, symptom analysis, preventive care recommendations, chronic disease management, drug information, lab report interpretation, PubMed literature search, pediatric care guidance, or medical terminology explanation."
+description: "家庭保健医生 / Family Health Doctor — AI医疗助手 / AI Medical Assistant Skill。提供分诊评估、症状分析、预防保健、慢性病管理、药物查询、检验解读、文献检索、儿科护理、医学术语解释、健康科普写作。Use when: you need medical triage, symptom analysis, preventive care recommendations, chronic disease management, drug information, lab report interpretation, PubMed literature search, pediatric care guidance, or medical terminology explanation."
 argument-hint: "描述你的健康需求，例如症状、药物名称、检验报告、预防保健问题等"
 user-invocable: true
 context: fork
@@ -9,7 +9,7 @@ platform:
   - Tencent SkillHub
 ---
 
-# Family Health Doctor / 家庭保健医生
+# Family Health Doctor — AI Medical Assistant Skill / 家庭保健医生 · AI医疗助手
 
 > **⚠️ 重要免责声明 / Important Disclaimer**
 >

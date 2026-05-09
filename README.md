@@ -10,7 +10,7 @@
 <h1 align="center">🏥 Family Health Doctor</h1>
 
 <p align="center">
-  <strong>Family Health Doctor / 家庭保健医生 — Available on SkillsMP &amp; Tencent SkillHub</strong>
+  <strong>Family Health Doctor — AI Medical Assistant Skill / 家庭保健医生 · AI医疗助手 / ファミリーヘルスドクター · AI医療アシスタント — Available on SkillsMP &amp; Tencent SkillHub</strong>
   <br />
   Triage · Symptom Analysis (12 types) · Preventive Care (USPSTF+CDC) · Chronic Disease (6 guidelines) · Drug Info (OpenFDA+DailyMed+RxNorm) · Lab Report (Adult+Pediatric) · Pediatric Care · Literature Search · Clinical Trials · SOAP Notes
 </p>
