@@ -7,12 +7,12 @@
   <img src="https://img.shields.io/badge/skillhub.cn-available-brightgreen?style=flat-square" alt="SkillHub" />
 </p>
 
-<h1 align="center">🏥 Doctor Skill</h1>
+<h1 align="center">🏥 Family Health Doctor Skill</h1>
 
 <p align="center">
-  <strong>Medical AI Assistant — Available on SkillsMP &amp; Tencent SkillHub</strong>
+  <strong>Family Health Doctor / 家庭保健医生 — Available on SkillsMP &amp; Tencent SkillHub</strong>
   <br />
-  Symptom Analysis · Drug Information · Literature Search · Terminology · Health Writing · Lab Report Interpretation
+  Triage · Symptom Analysis (12 types) · Preventive Care (USPSTF+CDC) · Chronic Disease (6 guidelines) · Drug Info (OpenFDA+DailyMed) · Lab Report (Adult+Pediatric) · Pediatric Care · Literature Search · Clinical Trials · SOAP Notes
 </p>
 
 <p align="center">
@@ -20,7 +20,7 @@
   <a href="#-quick-start">Quick Start</a> •
   <a href="#-usage-examples">Usage</a> •
   <a href="#-architecture">Architecture</a> •
-  <a href="#-platform-compatibility">Platforms</a> •
+  <a href="#-authoritative-sources">Authoritative Sources</a> •
   <a href="README.zh-CN.md">中文版</a>
 </p>
 
@@ -32,14 +32,18 @@
 
 ## ✨ Features
 
-| Feature | Description | API |
-|---------|-------------|-----|
-| 🩺 **Symptom Analysis** | Structured symptom assessment with differential diagnosis | OpenFDA + Knowledge Base |
-| 💊 **Drug Information** | Drug details, side effects, contraindications & interactions | OpenFDA API |
-| 📚 **Literature Search** | PubMed medical literature search & summarization | PubMed E-utilities |
-| 📖 **Terminology** | Medical terminology explanations (EN/CN) | Built-in Reference |
-| ✍️ **Health Writing** | Professional health science article generation | Templates + AI |
-| 📋 **Report Interpretation** | Lab report analysis with reference ranges | Knowledge Base |
+| # | Feature | Description | Data Source |
+|---|---------|-------------|-------------|
+| 🔴 | **Triage System** | 4-level urgency assessment with ~30 red-flag patterns across 8 body systems | Rule-based (ACEP/NICE) |
+| 🩺 | **Symptom Analysis** | 12 symptom types with structured differential diagnosis | OpenFDA + Knowledge Base |
+| 🛡️ | **Preventive Care** | Personalized USPSTF A&B screening + CDC vaccination schedule by age/sex/risk | USPSTF + CDC ACIP |
+| 💙 | **Chronic Disease** | Guideline-based targets for HTN, DM, lipids, asthma, COPD, hypothyroid | ACC/AHA, ADA, GINA, GOLD, ATA |
+| 💊 | **Drug Information** | Drug details, interactions, multi-source fallback (OpenFDA+DailyMed+RxNorm) | OpenFDA + DailyMed + RxNorm |
+| 📋 | **Lab Report** | Adult + pediatric reference ranges, 26+ tests, critical value detection | Knowledge Base |
+| 👶 | **Pediatric Care** | Age-stratified lab ranges, growth milestones, fever triage | AAP/NICE + WHO MGRS |
+| 📚 | **Literature Search** | PubMed + ClinicalTrials.gov search with structured results | PubMed + ClinicalTrials.gov |
+| 📖 | **Terminology** | Bilingual medical terminology (EN/CN), preventive + pediatric + mental health | Built-in Reference |
+| ✍️ | **SOAP Notes & Writing** | SOAP-format clinical documentation + patient education + health articles | Templates + AI |
 
 ## 🚀 Quick Start
 
@@ -139,22 +143,35 @@ Output: Top 5 relevant articles with titles, authors, abstracts, and PMID links.
 ## 🏗 Architecture
 
 ```
-                        ┌──────────────┐
-                        │   User Input  │
-                        └──────┬───────┘
-                               │
-┌──────────────────────────────▼──────────────────────────┐
-│                    SKILL.md (Router)                      │
-│  - Routes to 6 feature modules                           │
-│  - Provides procedures & output formats                  │
-└────┬─────┬─────┬─────┬─────┬──────────┬─────────────────┘
-     │     │     │     │     │          │
-     ▼     ▼     ▼     ▼     ▼          ▼
-  Symptom Drug  PubMed Term  Health   Report
-  Analyze Query Search      Explain  Write   Interpret
-     │     │     │     │     │          │
-     ▼     ▼     ▼     └─────┴──────────┘
-  OpenFDA  OpenFDA PubMed      AI Model (Fallback)
+                         ┌──────────────┐
+                         │   User Input  │
+                         └──────┬────────┘
+                                │
+                    ┌───────────▼────────────┐
+                    │  🔴 TRIAGE (Safety Gate) │
+                    │  Emergency detection first │
+                    └───────────┬────────────┘
+                                │ (if non-emergency)
+┌───────────────────────────────▼──────────────────────────────────┐
+│                       SKILL.md (Router)                           │
+│  10 features · 6 groups · SOAP output · Guideline-based          │
+└──┬────────┬────────┬────────┬────────┬──────────┬───────────────┘
+   │        │        │        │        │          │
+   ▼        ▼        ▼        ▼        ▼          ▼
+ Acute    Prev-    Chronic   Drug     Lab      Pediatric
+ Care     entive   Disease   Info     Report   Care
+   │        │        │        │        │          │
+   ▼        ▼        ▼        ▼        ▼          ▼
+Triage   USPSTF   ACC/AHA  OpenFDA  Ref.Ranges  WHO MGRS
+Symptom  CDC      ADA       DailyMed  Adult +    AAP/NICE
+Analyzer ACIP     GINA/GOLD RxNorm   Pediatric   Milestones
+(12 types)        ATA
+   │        │        │        │        │          │
+   └────────┴────────┴────────┴────────┴──────────┘
+                         │
+                         ▼
+              PubMed + ClinicalTrials.gov
+                (Literature & Trials)
 ```
 
 ### Project Structure
@@ -162,9 +179,9 @@ Output: Top 5 relevant articles with titles, authors, abstracts, and PMID links.
 ```
 doctor.skill/
 ├── .github/skills/doctor/     # 🎯 Core Skill Package
-│   ├── SKILL.md                # Main skill entry point
-│   ├── scripts/                # 4 Python API scripts
-│   ├── references/             # 4 medical reference files
+│   ├── SKILL.md                # Main skill entry point (10 features)
+│   ├── scripts/                # 9 Python API scripts (stdlib only)
+│   ├── references/             # 12 medical reference files
 │   └── assets/templates/       # 3 output templates
 ├── docs/                       # Full documentation
 ├── premium/                    # Premium features info
@@ -176,8 +193,9 @@ doctor.skill/
 ## 🛠 Technical Details
 
 - **Standard**: [Agent Skills](https://agentskills.io/) — open, portable format
-- **APIs Used**: [PubMed E-utilities](https://www.ncbi.nlm.nih.gov/books/NBK25501/) (free), [OpenFDA](https://open.fda.gov/) (free)
-- **Language**: Python for API scripts, Markdown for knowledge base
+- **APIs Used**: [PubMed E-utilities](https://www.ncbi.nlm.nih.gov/books/NBK25501/) (free), [OpenFDA](https://open.fda.gov/) (free), [DailyMed](https://dailymed.nlm.nih.gov/) (free), [RxNorm](https://www.nlm.nih.gov/research/umls/rxnorm/) (free), [ClinicalTrials.gov API v2](https://clinicaltrials.gov/data-api/api) (free)
+- **Guidelines Embedded**: USPSTF A&B, CDC ACIP, ACC/AHA, ADA, GINA, GOLD, ATA, AAP, NICE
+- **Language**: Python for API scripts (stdlib only), Markdown for knowledge base
 - **Compatibility**: SkillsMP · Tencent SkillHub · Claude Code · OpenAI Codex CLI · Cursor · VS Code 1.98+ · Manus · Any Agent Skills-compatible tool
 
 ## 🤝 Contributing
@@ -186,25 +204,24 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 - 🐛 Report bugs via [Issues](https://github.com/liliwen88/doctor.skill/issues)
 - 💡 Suggest features via [Issues](https://github.com/liliwen88/doctor.skill/issues)
-- ⚕️ Update medical knowledge references
-- 🌐 Help with translations
-- 💻 Improve API scripts
+- ⚕️ Update medical knowledge references (guidelines, drug data, lab ranges)
+- 🌐 Help with translations (especially bilingual content)
+- 💻 Improve API scripts (error handling, new data sources)
 
 ## 📈 Roadmap
 
-### v1.0 (Current)
-- ✅ 6 core medical features
-- ✅ PubMed & OpenFDA integration
-- ✅ Medical terminology reference
-- ✅ Symptom analysis framework
+### v2.0 (Current) — Family Health Doctor
+- ✅ 10 core medical features including triage, preventive care, chronic disease management
+- ✅ 9 Python scripts, 12 reference files, 6 templates
+- ✅ Multi-source drug data (OpenFDA + DailyMed + RxNorm)
+- ✅ USPSTF A&B screening + CDC ACIP vaccination schedules
+- ✅ 6 chronic disease guideline-based targets (HTN, DM, lipids, asthma, COPD, hypothyroid)
+- ✅ Pediatric care (lab ranges, milestones, fever triage)
+- ✅ ClinicalTrials.gov API integration
+- ✅ SOAP-format clinical documentation
 - ✅ SkillsMP & Tencent SkillHub marketplace listing
 
-### v1.1 (Coming Soon)
-- 🔄 Enhanced drug interaction database
-- 🔄 Chinese Traditional Medicine support
-- 🔄 More lab test reference ranges
-
-### v2.0 (Planned)
+### v2.1 (Planned)
 - 🔄 Premium features (see [premium/](premium/))
 - 🔄 FHIR-compatible data exchange
 - 🔄 Multi-language medical dictionary

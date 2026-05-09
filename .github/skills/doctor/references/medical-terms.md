@@ -123,6 +123,50 @@
 | 黄疸 | Jaundice | 肝胆疾病、溶血 |
 | 紫绀 | Cyanosis | 缺氧、心衰、呼吸衰竭 |
 
+## 预防保健与筛查 / Preventive Care & Screening
+
+| 中文 | English | 定义 |
+|------|---------|------|
+| 预防保健 | Preventive Care | 通过筛查、疫苗、生活方式干预预防疾病 |
+| 筛查 | Screening | 在无症状人群中检测早期疾病 |
+| 敏感度 | Sensitivity | 测试正确识别患病者的能力（真阳性率） |
+| 特异度 | Specificity | 测试正确识别未患病者的能力（真阴性率） |
+| 一级预防 | Primary Prevention | 防止疾病发生（疫苗、生活方式） |
+| 二级预防 | Secondary Prevention | 早期发现疾病（筛查） |
+| 三级预防 | Tertiary Prevention | 减少已确诊疾病的并发症 |
+
+## 精神健康 / Mental Health
+
+| 中文 | English | 定义 |
+|------|---------|------|
+| 广泛性焦虑障碍 | Generalized Anxiety Disorder (GAD) | 持续的过度担忧，影响日常生活 |
+| 惊恐障碍 | Panic Disorder | 反复发作的强烈恐惧（惊恐发作） |
+| 创伤后应激障碍 | Post-Traumatic Stress Disorder (PTSD) | 经历创伤事件后持续的焦虑和闪回 |
+| 认知行为治疗 | Cognitive Behavioral Therapy (CBT) | 通过改变思维和行为模式来改善心理健康 |
+| 正念 | Mindfulness | 有意识地关注当下，不加评判 |
+| 物质使用障碍 | Substance Use Disorder | 对酒精、药物或其他物质的依赖和滥用 |
+| 动机性访谈 | Motivational Interviewing (MI) | 以患者为中心的沟通方式，帮助改变行为 |
+
+## 儿科 / Pediatrics
+
+| 中文 | English | 定义 |
+|------|---------|------|
+| 生长发育迟缓 | Growth & Developmental Delay | 体重、身高或发育里程碑显著落后 |
+| 热性惊厥 | Febrile Seizure | 发热引起的抽搐（6月-5岁儿童），通常良性 |
+| 生理性黄疸 | Physiologic Jaundice | 新生儿出生后 2-14 天出现的轻度黄疸 |
+| 毛细支气管炎 | Bronchiolitis | 婴幼儿常见的下呼吸道感染（RSV 最常见） |
+| 先天性疾病筛查 | Newborn Screening | 新生儿出生后筛查先天代谢和遗传疾病 |
+
+## 皮肤病学 / Dermatology
+
+| 中文 | English | 定义 |
+|------|---------|------|
+| 荨麻疹 | Urticaria (Hives) | 过敏反应导致的瘙痒性风团 |
+| 湿疹 | Eczema (Atopic Dermatitis) | 慢性瘙痒性皮肤炎症 |
+| 带状疱疹 | Herpes Zoster (Shingles) | 水痘-带状疱疹病毒再激活引起的疼痛性皮疹 |
+| 银屑病 | Psoriasis | 自身免疫性慢性皮肤病（鳞屑性红斑） |
+| 基底细胞癌 | Basal Cell Carcinoma | 最常见但最不具侵袭性的皮肤癌 |
+
 ---
 
 > ⚠️ 此术语表仅供参考和学习使用。临床诊断请咨询专业医生。
