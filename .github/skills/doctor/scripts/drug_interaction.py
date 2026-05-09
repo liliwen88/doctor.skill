@@ -115,6 +115,116 @@ def _query_drug_events(drug_name: str) -> dict:
         return {"drug": None, "error": str(e)}
 
 
+def query_dailymed(drug_name: str) -> dict:
+    """
+    Query DailyMed (NLM) for FDA-approved drug labeling.
+
+    DailyMed provides structured product labels (SPL) for all FDA-approved
+    drugs. This serves as a fallback when OpenFDA doesn't return results.
+
+    API: https://dailymed.nlm.nih.gov/dailymed/services/v2/
+    Docs: https://dailymed.nlm.nih.gov/dailymed/app-support-web-services.cfm
+    """
+    try:
+        params = urllib.parse.urlencode({
+            "drug_name": drug_name,
+            "page": "1",
+            "pagesize": "1",
+        })
+        url = f"https://dailymed.nlm.nih.gov/dailymed/services/v2/spls.json?{params}"
+        req = urllib.request.Request(url, headers={"User-Agent": "doctor-skill/1.0"})
+
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+
+        results = data.get("data", [])
+        if not results:
+            return {"drug": None, "error": "Drug not found in DailyMed"}
+
+        r = results[0]
+        drug = {
+            "name": drug_name,
+            "genericName": r.get("generic_name"),
+            "brandName": r.get("brand_name"),
+            "drugClass": r.get("pharm_class", [None])[0] if r.get("pharm_class") else None,
+            "purpose": None,
+            "indications": [r.get("indications_and_usage", "")],
+            "warnings": [r.get("warnings_and_cautions", "")],
+            "sideEffects": [r.get("adverse_reactions", "")],
+            "contraindications": [r.get("contraindications", "")],
+            "interactions": [r.get("drug_interactions", "")],
+            "manufacturer": r.get("manufacturer_name"),
+            "source": "DailyMed (NLM)",
+        }
+        return {"drug": drug}
+
+    except Exception as e:
+        return {"drug": None, "error": str(e)}
+
+
+def resolve_drug_name(drug_name: str) -> str:
+    """
+    Attempt to resolve a drug name to its RxNorm normalized form.
+
+    RxNorm provides normalized names for clinical drugs, making it easier
+    to search across different naming conventions.
+
+    API: RxNorm REST API (free, no key)
+    Docs: https://lhncbc.nlm.nih.gov/RxNav/APIs/RxNormAPIs.html
+    """
+    try:
+        url = (
+            "https://rxnav.nlm.nih.gov/REST/approximateTerm.json"
+            f"?term={urllib.parse.quote(drug_name)}&maxEntries=1"
+        )
+        req = urllib.request.Request(url, headers={"User-Agent": "doctor-skill/1.0"})
+
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+
+        candidates = data.get("approximateGroup", {}).get("candidate", [])
+        if candidates:
+            return candidates[0].get("rxcui", drug_name)
+        return drug_name
+
+    except Exception:
+        return drug_name  # Silently fall back to original name
+
+
+def query_drug_info_comprehensive(drug_name: str) -> dict:
+    """
+    Comprehensive drug info query with multi-source fallback.
+
+    Fallback chain: OpenFDA label → OpenFDA events → DailyMed → error
+
+    Args:
+        drug_name: Drug name (generic or brand)
+
+    Returns:
+        dict with drug info or error
+    """
+    # Try RxNorm normalization first
+    normalized = resolve_drug_name(drug_name)
+    if normalized != drug_name:
+        drug_name = str(normalized)
+
+    # Chain 1: OpenFDA
+    result = query_drug_info(drug_name)
+    if result.get("drug") and result["drug"].get("genericName"):
+        return result
+
+    # Chain 2: DailyMed
+    daily_result = query_dailymed(drug_name)
+    if daily_result.get("drug"):
+        return daily_result
+
+    # Chain 3: Return whatever OpenFDA gave (even if partial)
+    if result.get("drug"):
+        return result
+
+    return {"drug": None, "error": "Drug not found in any data source"}
+
+
 def format_drug_info(result: dict) -> str:
     """Format drug information as a readable markdown string."""
     if result.get("error"):

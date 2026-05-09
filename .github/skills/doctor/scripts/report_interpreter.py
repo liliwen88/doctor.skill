@@ -243,13 +243,78 @@ REFERENCE_RANGES = {
     },
 }
 
+# Pediatric reference ranges by age group
+# Format: {test_key: {age_group: (low, high, unit, name, ...)}}
+_PEDIATRIC_REFERENCE_RANGES = {
+    "WBC": {
+        "neonate": (9.0, 30.0, "×10⁹/L"),
+        "infant": (6.0, 17.5, "×10⁹/L"),
+        "child": (5.0, 13.0, "×10⁹/L"),
+        "adolescent": (4.5, 11.0, "×10⁹/L"),
+    },
+    "HB": {
+        "neonate": (145, 225, "g/L"),
+        "infant": (100, 140, "g/L"),
+        "child": (110, 140, "g/L"),
+        "adolescent_male": (120, 160, "g/L"),
+        "adolescent_female": (115, 150, "g/L"),
+    },
+    "PLT": {
+        "neonate": (150, 400, "×10⁹/L"),
+        "infant": (150, 400, "×10⁹/L"),
+        "child": (150, 400, "×10⁹/L"),
+        "adolescent": (150, 400, "×10⁹/L"),
+    },
+    "NEUT": {
+        "neonate": (50, 70, "%"),
+        "infant": (20, 40, "%"),
+        "child": (40, 70, "%"),
+        "adolescent": (40, 75, "%"),
+    },
+    "LYMPH": {
+        "neonate": (20, 40, "%"),
+        "infant": (50, 70, "%"),
+        "child": (30, 50, "%"),
+        "adolescent": (20, 40, "%"),
+    },
+    "CRP": {
+        "neonate": (0, 5, "mg/L"),
+        "infant": (0, 5, "mg/L"),
+        "child": (0, 5, "mg/L"),
+        "adolescent": (0, 5, "mg/L"),
+    },
+    "CREA": {
+        "neonate": (27, 88, "μmol/L"),
+        "infant": (18, 35, "μmol/L"),
+        "child": (27, 62, "μmol/L"),
+        "adolescent_male": (44, 88, "μmol/L"),
+        "adolescent_female": (44, 80, "μmol/L"),
+    },
+    "TSH": {
+        "neonate": (1.0, 39.0, "mIU/L"),
+        "infant": (0.7, 5.9, "mIU/L"),
+        "child": (0.7, 5.9, "mIU/L"),
+        "adolescent": (0.5, 4.5, "mIU/L"),
+    },
+    "GLU": {
+        "neonate": (2.2, 6.0, "mmol/L"),
+        "infant": (3.3, 5.6, "mmol/L"),
+        "child": (3.3, 5.6, "mmol/L"),
+        "adolescent": (3.9, 5.6, "mmol/L"),
+    },
+}
 
-def interpret_report(raw_data: str) -> dict:
+
+def interpret_report(raw_data: str, age_group: str = None,
+                     sex: str = None) -> dict:
     """
     Parse and interpret lab test results.
 
     Args:
         raw_data: Raw lab report text to parse
+        age_group: Optional age group for pediatric ranges
+                   ('neonate', 'infant', 'child', 'adolescent')
+        sex: Optional sex for sex-specific ranges ('male', 'female')
 
     Returns:
         dict with reportType, tests list, summary, recommendations
@@ -266,6 +331,25 @@ def interpret_report(raw_data: str) -> dict:
             if ref:
                 matched_keys.add(key.upper())
                 numeric_value = _parse_float(value)
+
+                # Override with pediatric ranges if age_group specified
+                ped_ref = _PEDIATRIC_REFERENCE_RANGES.get(key.upper(), {})
+                if age_group and ped_ref:
+                    age_key = age_group
+                    if age_group == "adolescent" and sex:
+                        age_key = f"adolescent_{sex}"
+                    ped_range = ped_ref.get(age_key)
+                    if ped_range:
+                        ref = {
+                            "name": ref["name"],
+                            "unit": ped_range[2],
+                            "range": f"{ped_range[0]}-{ped_range[1]}",
+                            "low": ped_range[0],
+                            "high": ped_range[1],
+                            "sig_low": ref.get("sig_low", ""),
+                            "sig_high": ref.get("sig_high", ""),
+                        }
+
                 status = _evaluate_status(numeric_value, ref)
 
                 significance = ""
