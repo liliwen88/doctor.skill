@@ -93,6 +93,24 @@ def analyze_symptoms(input_data: SymptomInput) -> SymptomAnalysisResult:
     if any(kw in main for kw in ["呼吸困难", "dyspnea", "shortness of breath"]):
         diagnoses.extend(_analyze_dyspnea(input_data))
 
+    if any(kw in main for kw in ["腰痛", "背痛", "back pain", "腰疼"]):
+        diagnoses.extend(_analyze_back_pain(input_data))
+
+    if any(kw in main for kw in ["乏力", "疲劳", "疲劳", "fatigue", "tired"]):
+        diagnoses.extend(_analyze_fatigue(input_data))
+
+    if any(kw in main for kw in ["头晕", "眩晕", "dizziness", "vertigo", "dizzy"]):
+        diagnoses.extend(_analyze_dizziness(input_data))
+
+    if any(kw in main for kw in ["皮疹", "皮肤", "红疹", "rash", "skin"]):
+        diagnoses.extend(_analyze_skin_rash(input_data))
+
+    if any(kw in main for kw in ["焦虑", "抑郁", "情绪", "失眠", "anxiety", "depression", "mental"]):
+        diagnoses.extend(_analyze_mental_health(input_data))
+
+    if any(kw in main for kw in ["小儿", "儿童", "宝宝", "婴儿", "pediatric", "child"]):
+        diagnoses.extend(_analyze_pediatric_fever(input_data))
+
     # Fallback generic analysis
     if not diagnoses:
         diagnoses.append(DifferentialDiagnosis(
@@ -331,6 +349,344 @@ def _analyze_dyspnea(input_data: SymptomInput) -> list:
             keyFeatures=["活动后呼吸困难", "夜间阵发性呼吸困难", "下肢水肿"],
             recommendedTests=["BNP/NT-proBNP", "心脏超声", "胸片"],
             redFlags=["静息时呼吸困难", "急性肺水肿"],
+        ))
+
+    return diagnoses
+
+
+def _analyze_back_pain(input_data: SymptomInput) -> list:
+    """Analyze back pain symptoms."""
+    diagnoses = []
+    symptoms = [input_data.mainSymptom] + input_data.associatedSymptoms
+    sym_lower = " ".join(s.lower() for s in symptoms)
+
+    if input_data.onset == "acute":
+        diagnoses.append(DifferentialDiagnosis(
+            condition="急性腰肌劳损 / Acute Lumbar Strain",
+            likelihood="high",
+            keyFeatures=["急性起病", "有明确诱因（搬重物、不当姿势）", "局部压痛"],
+            recommendedTests=["体格检查", "排除其他病因"],
+            redFlags=[],
+        ))
+
+    if input_data.onset in ("chronic", "subacute"):
+        diagnoses.append(DifferentialDiagnosis(
+            condition="腰椎间盘突出 / Lumbar Disc Herniation",
+            likelihood="moderate",
+            keyFeatures=["腰痛 + 下肢放射痛（坐骨神经痛）", "直腿抬高试验阳性"],
+            recommendedTests=["腰椎 MRI", "神经外科评估"],
+            redFlags=["大小便失禁", "会阴部麻木（警惕马尾综合征）"],
+        ))
+
+    red_flags = any(kw in sym_lower for kw in [
+        "大小便失禁", "会阴麻木", "鞍区麻木", "下肢无力", "发热",
+        "体重下降", "夜间痛", "外伤", "骨质疏松", "长期使用激素",
+    ])
+    if red_flags:
+        diagnoses.insert(0, DifferentialDiagnosis(
+            condition="需紧急排除：马尾综合征 / 脊柱感染 / 骨折 / 肿瘤 / Cauda Equina Syndrome",
+            likelihood="low",
+            keyFeatures=["存在危险信号，需尽快排除严重病因"],
+            recommendedTests=["腰椎 MRI（紧急）", "血常规、CRP", "X 线"],
+            redFlags=["大小便失禁或潴留", "进行性下肢无力", "发热 + 腰痛"],
+        ))
+
+    if not red_flags:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="非特异性腰痛 / Non-Specific Low Back Pain",
+            likelihood="high",
+            keyFeatures=["最常见类型（>85%）", "无神经症状", "4-6 周内自愈"],
+            recommendedTests=["通常无需影像学检查", "对症处理"],
+            redFlags=["持续 > 6 周", "进行性加重"],
+        ))
+
+    return diagnoses
+
+
+def _analyze_fatigue(input_data: SymptomInput) -> list:
+    """Analyze fatigue symptoms."""
+    diagnoses = []
+    symptoms = [input_data.mainSymptom] + input_data.associatedSymptoms
+    sym_lower = " ".join(s.lower() for s in symptoms)
+
+    mood_keywords = ["情绪低落", "兴趣减退", "depressed", "失眠", "早醒", "焦虑"]
+    has_mood = any(kw in sym_lower for kw in mood_keywords)
+    anemia_keywords = ["头晕", "面色苍白", "心慌", "心悸", "月经量多"]
+    has_anemia = any(kw in sym_lower for kw in anemia_keywords)
+    thyroid_keywords = ["怕冷", "怕热", "体重增加", "体重下降", "手抖", "水肿"]
+    has_thyroid = any(kw in sym_lower for kw in thyroid_keywords)
+
+    if has_mood:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="抑郁障碍 / 焦虑障碍 / Depression / Anxiety",
+            likelihood="high",
+            keyFeatures=["疲劳 + 情绪症状（低落/焦虑/失眠）", "兴趣减退", "晨重暮轻"],
+            recommendedTests=["PHQ-9 / GAD-7 量表", "心理科评估"],
+            redFlags=["自杀观念", "严重影响日常生活"],
+        ))
+
+    if has_anemia:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="贫血 / Anemia",
+            likelihood="moderate",
+            keyFeatures=["疲劳 + 面色苍白 + 心悸", "可能有慢性失血或营养不良"],
+            recommendedTests=["血常规（Hb、MCV）", "铁蛋白、维生素 B12、叶酸"],
+            redFlags=["Hb < 70 g/L", "进行性贫血"],
+        ))
+
+    if has_thyroid:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="甲状腺功能异常 / Thyroid Dysfunction",
+            likelihood="moderate",
+            keyFeatures=["疲劳 + 体重变化 + 怕冷/怕热"],
+            recommendedTests=["TSH、FT4", "甲状腺超声"],
+            redFlags=["严重甲减（黏液性水肿昏迷前兆）"],
+        ))
+
+    diagnoses.append(DifferentialDiagnosis(
+        condition="慢性疲劳待查 / Fatigue of Unknown Origin",
+        likelihood="moderate",
+        keyFeatures=[f"主诉：{input_data.mainSymptom}，持续 {input_data.duration}"],
+        recommendedTests=["血常规、生化全套", "TSH、CRP", "如有需要：睡眠监测"],
+        redFlags=["进行性加重", "伴体重下降", "伴发热盗汗"],
+    ))
+
+    return diagnoses
+
+
+def _analyze_dizziness(input_data: SymptomInput) -> list:
+    """Analyze dizziness / vertigo symptoms."""
+    diagnoses = []
+    symptoms = [input_data.mainSymptom] + input_data.associatedSymptoms
+    sym_lower = " ".join(s.lower() for s in symptoms)
+
+    is_vertigo = any(kw in sym_lower for kw in ["旋转", "天旋地转", "vertigo", "周围转动"])
+    is_positional = any(kw in sym_lower for kw in ["翻身", "起床", "转头", "体位", "positional"])
+    has_tinnitus = any(kw in sym_lower for kw in ["耳鸣", "听力下降", "tinnitus", "hearing"])
+    has_postural = any(kw in sym_lower for kw in ["站起来", "起身", "站起", "体位性", "眼前发黑"])
+
+    if is_vertigo and is_positional and not has_tinnitus:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="良性阵发性位置性眩晕 / BPPV（耳石症）",
+            likelihood="high",
+            keyFeatures=["与头位变化相关的短暂眩晕（<1 分钟）", "无耳鸣/听力下降"],
+            recommendedTests=["Dix-Hallpike 试验", "Epley 手法复位"],
+            redFlags=[],
+        ))
+
+    if is_vertigo and has_tinnitus:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="梅尼埃病 / Meniere's Disease",
+            likelihood="moderate",
+            keyFeatures=["眩晕 + 耳鸣 + 听力下降", "发作持续 20 分钟-12 小时"],
+            recommendedTests=["听力检查", "耳科评估"],
+            redFlags=["突发完全听力丧失"],
+        ))
+
+    if is_vertigo and input_data.onset == "acute":
+        diagnoses.append(DifferentialDiagnosis(
+            condition="前庭神经炎 / Vestibular Neuritis",
+            likelihood="moderate",
+            keyFeatures=["急性持续性眩晕（数小时-数天）", "无听力症状", "感冒后发病"],
+            recommendedTests=["神经系统检查", "排除中枢性病因"],
+            redFlags=["伴肢体无力、言语障碍（警惕后循环卒中）"],
+        ))
+
+    if has_postural:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="体位性低血压 / Orthostatic Hypotension",
+            likelihood="high",
+            keyFeatures=["站立时头晕/眼前发黑", "平卧缓解", "可能与脱水、降压药相关"],
+            recommendedTests=["卧立位血压测量", "评估用药和容量状态"],
+            redFlags=["晕厥", "跌倒受伤"],
+        ))
+
+    if not diagnoses:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="头晕待查 / Dizziness of Unknown Origin",
+            likelihood="moderate",
+            keyFeatures=[f"主诉：{input_data.mainSymptom}，持续 {input_data.duration}"],
+            recommendedTests=["神经系统检查", "血常规、血糖", "ECG（排查心律失常）"],
+            redFlags=["伴肢体无力或麻木", "伴言语障碍", "伴意识丧失"],
+        ))
+
+    return diagnoses
+
+
+def _analyze_skin_rash(input_data: SymptomInput) -> list:
+    """Analyze skin rash symptoms."""
+    diagnoses = []
+    symptoms = [input_data.mainSymptom] + input_data.associatedSymptoms
+    sym_lower = " ".join(s.lower() for s in symptoms)
+
+    has_fever = "发热" in sym_lower or "fever" in sym_lower or "发烧" in sym_lower
+    has_itch = "痒" in sym_lower or "itch" in sym_lower or "瘙痒" in sym_lower
+    has_pain = "痛" in sym_lower or "pain" in sym_lower or "疼痛" in sym_lower
+    has_allergy = any(kw in sym_lower for kw in ["过敏", "药物", "食物", "花粉"])
+    is_acute = input_data.onset == "acute"
+
+    if is_acute and has_allergy and has_itch:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="荨麻疹 / Urticaria（过敏反应）",
+            likelihood="high",
+            keyFeatures=["急性起病", "瘙痒性风团", "有过敏源接触史"],
+            recommendedTests=["过敏原筛查", "抗组胺药治疗观察"],
+            redFlags=["伴呼吸困难", "伴喉头水肿", "伴休克（警惕过敏性休克）"],
+        ))
+
+    if has_fever and is_acute:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="感染性皮疹 / Infectious Exanthem（病毒/细菌）",
+            likelihood="high",
+            keyFeatures=["发热 + 皮疹", "可能为水痘、麻疹、猩红热等"],
+            recommendedTests=["血常规", "CRP", "病原学检查（根据临床）"],
+            redFlags=["出血点/瘀斑（警惕脑膜炎球菌）", "口腔/眼/生殖器黏膜受累（SJS/TEN）"],
+        ))
+
+    if has_pain:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="带状疱疹 / Herpes Zoster（Shingles）",
+            likelihood="moderate",
+            keyFeatures=["单侧、带状分布", "疼痛/烧灼感先于皮疹", "沿神经分布"],
+            recommendedTests=["临床诊断为主", "免疫低下者查病毒学"],
+            redFlags=["眼部受累（眼带状疱疹）", "播散性（免疫低下者）"],
+        ))
+
+    if not diagnoses:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="皮疹待查 / Rash of Unknown Origin",
+            likelihood="moderate",
+            keyFeatures=[f"主诉：{input_data.mainSymptom}，持续 {input_data.duration}"],
+            recommendedTests=["皮肤科评估", "必要时皮肤活检"],
+            redFlags=["伴发热>5天", "口腔/黏膜受累", "大疱形成"],
+        ))
+
+    return diagnoses
+
+
+def _analyze_mental_health(input_data: SymptomInput) -> list:
+    """Analyze mental health concerns (anxiety, depression, sleep)."""
+    diagnoses = []
+    symptoms = [input_data.mainSymptom] + input_data.associatedSymptoms
+    sym_lower = " ".join(s.lower() for s in symptoms)
+
+    depressed_mood = any(kw in sym_lower for kw in [
+        "情绪低落", "悲伤", "depressed", "兴趣减退", "高兴不起来", "没有兴趣",
+    ])
+    anxiety = any(kw in sym_lower for kw in [
+        "焦虑", "担心", "紧张", "anxiety", "心慌", "坐立不安", "恐慌", "panic",
+    ])
+    sleep_issue = any(kw in sym_lower for kw in [
+        "失眠", "早醒", "入睡困难", "睡眠", "insomnia", "sleep",
+    ])
+    suicidal = any(kw in sym_lower for kw in [
+        "自杀", "不想活", "结束生命", "自伤", "伤害自己", "suicidal",
+    ])
+
+    if suicidal:
+        diagnoses.insert(0, DifferentialDiagnosis(
+            condition="🔴 自杀风险 / Suicidal Ideation — 需立即评估",
+            likelihood="high",
+            keyFeatures=["存在自杀观念或自伤风险", "需要紧急精神科评估"],
+            recommendedTests=["紧急精神科评估（不要让其独处）"],
+            redFlags=["有具体计划", "有自伤行为", "表达绝望感"],
+        ))
+
+    if depressed_mood:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="抑郁障碍 / Major Depressive Disorder",
+            likelihood="high",
+            keyFeatures=["情绪低落或兴趣减退持续 > 2 周", "可能伴睡眠、食欲、精力改变"],
+            recommendedTests=["PHQ-9 抑郁筛查量表", "心理科/精神科评估"],
+            redFlags=["自杀观念", "严重社会功能损害"],
+        ))
+
+    if anxiety:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="焦虑障碍 / Anxiety Disorder",
+            likelihood="high",
+            keyFeatures=["过度担心、紧张、坐立不安", "可能伴心悸、出汗、呼吸困难"],
+            recommendedTests=["GAD-7 焦虑筛查量表", "排除甲亢等躯体病因（TSH）"],
+            redFlags=["惊恐发作频繁", "严重影响日常生活"],
+        ))
+
+    if sleep_issue and not depressed_mood:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="失眠障碍 / Insomnia Disorder",
+            likelihood="moderate",
+            keyFeatures=["入睡困难或维持睡眠困难", "日间功能受损"],
+            recommendedTests=["睡眠日记", "睡眠卫生评估", "必要时睡眠监测"],
+            redFlags=["伴严重情绪障碍", "伴认知功能下降"],
+        ))
+
+    if not diagnoses:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="心理健康问题待评估 / Mental Health Concern",
+            likelihood="moderate",
+            keyFeatures=[f"主诉：{input_data.mainSymptom}，持续 {input_data.duration}"],
+            recommendedTests=["PHQ-9 + GAD-7 筛查", "心理科评估"],
+            redFlags=["自杀或自伤风险", "精神病性症状（幻觉、妄想）"],
+        ))
+
+    return diagnoses
+
+
+def _analyze_pediatric_fever(input_data: SymptomInput) -> list:
+    """Analyze fever in children."""
+    diagnoses = []
+    symptoms = [input_data.mainSymptom] + input_data.associatedSymptoms
+    sym_lower = " ".join(s.lower() for s in symptoms)
+    age = input_data.age
+
+    is_neonate = age is not None and age < 1  # <28 days treated as neonate
+    is_infant = age is not None and age < 12
+    has_cough = "咳嗽" in sym_lower or "cough" in sym_lower
+    has_ear = any(kw in sym_lower for kw in ["耳朵痛", "抓耳朵", "ear", "哭闹"])
+    has_rash = any(kw in sym_lower for kw in ["皮疹", "红点", "rash"])
+
+    if is_neonate:
+        diagnoses.insert(0, DifferentialDiagnosis(
+            condition="🔴 新生儿发热 / Neonatal Fever（需紧急评估）",
+            likelihood="high",
+            keyFeatures=["新生儿（<28 天）发热 ≥38°C", "需排除败血症、脑膜炎"],
+            recommendedTests=["血培养、尿培养", "腰穿（脑脊液检查）", "住院评估"],
+            redFlags=["吃奶差", "精神萎靡", "呼吸急促", "循环不良"],
+        ))
+
+    if has_cough:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="儿童呼吸道感染 / Pediatric Respiratory Infection",
+            likelihood="high",
+            keyFeatures=["发热 + 咳嗽/流涕", "最常见为病毒性 URI"],
+            recommendedTests=["观察精神状态和呼吸情况", "必要时血常规、CRP"],
+            redFlags=["呼吸困难（鼻翼扇动、三凹征）", "吃奶/饮水减少", "精神萎靡"],
+        ))
+
+    if has_ear:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="急性中耳炎 / Acute Otitis Media",
+            likelihood="high",
+            keyFeatures=["发热 + 耳痛/抓耳朵", "婴幼儿最常见细菌感染之一"],
+            recommendedTests=["耳镜检查", "根据年龄和严重程度决定是否用抗生素"],
+            redFlags=["持续高热 > 48h", "耳后红肿"],
+        ))
+
+    if has_rash:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="儿童感染性皮疹 / Pediatric Exanthem",
+            likelihood="moderate",
+            keyFeatures=["发热 + 皮疹", "可能为幼儿急疹、手足口病等"],
+            recommendedTests=["观察皮疹特征和分布", "必要时血常规"],
+            redFlags=["出血点/瘀斑（压之不褪色）", "口腔/眼部黏膜受累"],
+        ))
+
+    if not diagnoses:
+        diagnoses.append(DifferentialDiagnosis(
+            condition="儿童发热待查 / Pediatric Fever of Unknown Origin",
+            likelihood="moderate",
+            keyFeatures=[f"主诉：{input_data.mainSymptom}，持续 {input_data.duration}"],
+            recommendedTests=["血常规、CRP", "尿常规（排除 UTI）", "观察一般状况"],
+            redFlags=["<3 个月婴儿发热", "精神状态改变", "脱水体征"],
         ))
 
     return diagnoses
