@@ -28,7 +28,7 @@
     "url": "git+https://github.com/liliwen88/doctor.skill.git"
   },
   "license": "MIT",
-  "author": "",
+  "author": "liliwen88 <liwenli204@gmail.com> (https://github.com/liliwen88)",
   "scripts": {
     "lint": "markdownlint '**/*.md' --ignore node_modules --ignore docs/_site",
     "lint:fix": "markdownlint '**/*.md' --fix --ignore node_modules --ignore docs/_site",
