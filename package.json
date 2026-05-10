@@ -28,12 +28,19 @@
     "url": "git+https://github.com/liliwen88/doctor.skill.git"
   },
   "license": "MIT",
-  "author": "",
+  "author": "liliwen",
+  "bugs": {
+    "url": "https://github.com/liliwen88/doctor.skill/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "lint": "markdownlint '**/*.md' --ignore node_modules --ignore docs/_site",
     "lint:fix": "markdownlint '**/*.md' --fix --ignore node_modules --ignore docs/_site",
     "format": "prettier --check '**/*.{md,py,json,yaml,yml}'",
-    "format:fix": "prettier --write '**/*.{md,py,json,yaml,yml}'"
+    "format:fix": "prettier --write '**/*.{md,py,json,yaml,yml}'",
+    "test": "python -m pytest tests/ -v"
   },
   "devDependencies": {
     "markdownlint-cli": "^0.42.0",

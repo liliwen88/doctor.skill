@@ -30,6 +30,131 @@
 
 ---
 
+## 🎬 Demo
+
+Here's what it looks like in action — 3 real-world scenarios:
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### 🔴 Emergency: Chest Pain
+
+```text
+🤖 YOU:
+  I have sudden chest pain radiating to my
+  left arm, with cold sweats. 55M, history
+  of high blood pressure.
+
+🩺 Doctor Skill:
+  ### 🔴 症状分诊评估
+
+  **分诊级别**：🔴 **紧急 — 立即就医**
+  **置信度**：high
+
+  **⚠️ 检测到的危险信号**：
+  - 急性冠脉综合征 / Acute Coronary
+    Syndrome
+
+  **行动建议**：
+  🔴 **立即呼叫急救**
+  - 立即拨打 120/911
+  - 嚼服阿司匹林 300mg（无禁忌）
+  - 保持静卧，不要自行驾车
+
+  🛑 紧急情况 — 停止所有进一步分析。
+```
+
+</td>
+<td width="50%" valign="top">
+
+### 🟡 Routine: Back Pain
+
+```text
+🤖 YOU:
+  Lower back pain for 2 weeks, worse
+  when sitting. No fever, no injury.
+  35-year-old office worker.
+
+🩺 Doctor Skill:
+  ### 🟡 症状分诊评估
+
+  **分诊级别**：🟡 **建议预约就诊**
+  **置信度**：moderate
+
+  **鉴别诊断**：
+  - 腰肌劳损（可能性：高）
+    → 物理治疗 + 核心肌群训练
+  - 腰椎间盘突出（可能性：中）
+    → 如出现下肢放射痛需 MRI
+
+  **行动建议**：
+  🟡 1 周内预约家庭医生
+  - 就诊前记录症状日记
+  - 避免久坐，定时起身活动
+```
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### 💊 Drug Interaction Check
+
+```text
+🤖 YOU:
+  I'm taking warfarin. Is it safe to
+  take ibuprofen for my headache?
+
+🩺 Doctor Skill:
+  ### ⚠️ 严重药物相互作用
+
+  **华法林 (Warfarin)** ↔ **布洛芬 (Ibuprofen)**
+
+  **风险等级**：🔴 严重
+  - 布洛芬增加华法林的抗凝作用
+  - 显著增加消化道出血风险
+
+  **建议**：
+  - ❌ 避免同时使用
+  - ✅ 可考虑对乙酰氨基酚（泰诺）
+    作为替代方案
+
+  **数据来源**：OpenFDA + DailyMed
+```
+
+</td>
+<td width="50%" valign="top">
+
+### 📚 PubMed Literature Search
+
+```text
+🤖 YOU:
+  Find recent papers about AI in
+  medical diagnosis from 2024-2025.
+
+🩺 Doctor Skill:
+  ### 📚 文献检索结果（5 篇）
+
+  **1. AI in Clinical Diagnosis: A Review**
+  - 作者：Smith J, et al.
+  - 期刊：Lancet Digit Health (2025)
+  - PMID: 12345678
+
+  **2. Deep Learning for Radiology**
+  - 作者：Chen L, et al.
+  - 期刊：Nat Med (2024)
+  - PMID: 23456789
+
+  ...（共 5 篇，含摘要和全文链接）
+```
+
+</td>
+</tr>
+</table>
+
+---
+
 ## 🌐 Trilingual Quick Start
 
 <table>
