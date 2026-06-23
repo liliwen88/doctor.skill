@@ -11,7 +11,7 @@ jobs:
     name: Lint & Format Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -35,7 +35,7 @@ jobs:
     name: Unit Tests (pytest)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -49,7 +49,7 @@ jobs:
     name: Validate Skill Structure
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Check SKILL.md exists
         run: test -f .github/skills/doctor/SKILL.md && echo "SKILL.md exists" || exit 1
