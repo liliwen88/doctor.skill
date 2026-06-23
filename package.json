@@ -43,7 +43,7 @@
     "test": "python -m pytest tests/ -v"
   },
   "devDependencies": {
-    "markdownlint-cli": "^0.42.0",
+    "markdownlint-cli": "^0.49.0",
     "prettier": "^3.4.0"
   }
 }
